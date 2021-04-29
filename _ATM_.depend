@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1619554231 source:d:\c++\_atm_\main.cpp
+	"_ATM_.h"
+	<iostream>
+	<string>
+	<fstream>
+	<map>
+	<vector>
+	<algorithm>
+
+1619601723 d:\c++\_atm_\_atm_.h
+	<iostream>
+	<fstream>
+	<string>
+	<map>
+	<vector>
+	<algorithm>
+
+1619552304 source:d:\c++\_atm_\_atm_.cpp
+	"_ATM_.h"
+	<iostream>
+	<fstream>
+	<string>
+	<map>
+	<vector>
+	<algorithm>
+
