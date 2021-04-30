@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1619778376 source:d:\c++\_atm_\main.cpp
+1619798493 source:d:\c++\_atm_\main.cpp
 	"_ATM_.h"
 
-1619707910 d:\c++\_atm_\_atm_.h
+1619787681 d:\c++\_atm_\_atm_.h
 	<windows.h>
 	<iostream>
 	<fstream>
@@ -10,6 +10,7 @@
 	<map>
 	<vector>
 	<algorithm>
+	<cstdlib>
 
 1619713691 source:d:\c++\_atm_\_atm_.cpp
 	"_ATM_.h"

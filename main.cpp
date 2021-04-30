@@ -15,7 +15,7 @@ int main()
         cout << "Your option is invalid. Please choose another option!" << "\n";
         cin >> answer;
     }
-    if(answer==1) cout << "Please log in to your account." << "\n";
+    if(answer==1) cout << "Please hold a second to go to login process..." << "\n";
     else if(answer==2) {
         string accountBalance="";
         string accountHistory="";
@@ -89,9 +89,13 @@ int main()
         cout << "Please wait a second..." << "\n";
         Sleep(1000);
         cout << "Sign up success. Please log in to your account." << "\n";
+        Sleep(2000);
+        system("cls");
         goto DISPLAY;
     }
     else if(answer==3) return 0;
+    Sleep(2000);
+    system("cls");
     user test("0","0");
     test.logIn();
     if(logInsuccessfully(test)) {
@@ -106,8 +110,9 @@ int main()
         string accountBalance=test.id+"Balance";
         string accountHistory=test.id+"History";
         DOSOMETHINGWHENYOULOGIN:
+        system("cls");
         int menuOpt;
-        do {
+        while(true) {
             showMenu();
             cin >> menuOpt;
             while(menuOpt<1||menuOpt>5) {
@@ -138,7 +143,7 @@ int main()
                     cout << "Enter 'b' to go back to menu: ";
                     cin >> temp;
                     while(temp!='b') cin >> temp;
-                    break;
+                    goto DOSOMETHINGWHENYOULOGIN;
                 }
                 case 2:{
                     int balance;
@@ -158,7 +163,7 @@ int main()
                     cout << "Enter 'b' to go back to menu: ";
                     cin >> temp;
                     while(temp!='b') cin >> temp;
-                    break;
+                    goto DOSOMETHINGWHENYOULOGIN;
                 }
                 case 3: {
                     int dOpt;
@@ -235,7 +240,7 @@ int main()
                         fileATM.close();
                         goto BACKTOCASE3;
                     }
-                    if(dOpt==2) break;
+                    if(dOpt==2) goto DOSOMETHINGWHENYOULOGIN;;
                 }
                 case 4: {
                     cout << "Please wait a second..." << "\n";
@@ -400,6 +405,7 @@ int main()
                         Sleep(1000);
                         cout << "Thank you for using my ATM! See you next time!" << "\n";
                         Sleep(2000);
+                        system("cls");
                         goto DISPLAY;
                     }
                     else if(eOpt==2) {
@@ -408,7 +414,7 @@ int main()
                 }
                 default: break;
             }
-        } while (true);
+        }
     }
     else {
         cout << "Card is deactivated, please try after 1 minute";

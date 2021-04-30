@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
 using namespace std;
 
 struct user {
