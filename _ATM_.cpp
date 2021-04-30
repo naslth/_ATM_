@@ -1,11 +1,4 @@
 #include"_ATM_.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <map>
-#include <vector>
-#include <algorithm>
-using namespace std;
 void user::logIn() {
     cout << "Please fill your ID: ";
     cin >> id;
@@ -32,7 +25,7 @@ bool logInsuccessfully(user test) {
     while(!test.checkAccount("listAccount.txt")) {
         check--;
         if (check == 0) return false;
-        cout << "Your ID or password is incorrect, please try again." << "\n";
+        cout << "Your ID or password is incorrect. Please try again!" << "\n";
         if(check!=1) cout << "You have " << check << " attempts left." << "\n";
         else cout << "You have " << check << " attempt left." << "\n";
         test.logIn();
