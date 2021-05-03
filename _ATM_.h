@@ -30,9 +30,13 @@ struct user {
     void logIn();
     bool checkAccount(const string& path);
 };
+
 bool logInsuccessfully(user test);
 void showMenu();
-int checkBalance(user test);
+map<int,int> readDataFromFileToMap(const string& path);
+void writeDataFromMapToFile(map<int,int> _map, const string& path);
+int checkBalance(user test,const string& path);
+void checkTransHistory(const string& path);
 
 
 #endif // _ATM_H_

@@ -42,8 +42,61 @@ void showMenu() {
     cout << "------------------------------" << "\n" << "\n";
     cout << "    Please choose an option: ";
 }
-int checkBalance(user test){
+map<int,int> readDataFromFileToMap(const string& path){
+    map<int,int> _map;
+    _map[10000]=0;
+    _map[20000]=0;
+    _map[50000]=0;
+    _map[100000]=0;
+    _map[200000]=0;
+    _map[500000]=0;
+    map<int, int>::iterator i;
+    ifstream fileIn;
+    fileIn.open(path,ios_base::in);
+    if(fileIn.is_open()) {
+        for(i=_map.begin(); i!=_map.end(); i++) {
+            fileIn >> (i->second);
+        }
+    }
+    else cout << "Can't open file.";
+    fileIn.close();
+    return _map;
+}
+void writeDataFromMapToFile(map<int,int> _map, const string& path) {
+    map<int, int>::iterator i;
+    ofstream fileOut;
+    fileOut.open(path,ios_base::out);
+    if(fileOut.is_open())
+    {
+        for (i = _map.begin(); i != _map.end(); i++)
+        {
+            fileOut << (i->second) << "\n";
+        }
+    }
+    else cout << "Can't open file." << "\n";
+    fileOut.close();
+}
+int checkBalance(user test, const string& path){
+    test.value=readDataFromFileToMap(path);
     int balance = test.value[10000]*10000+test.value[20000]*20000+test.value[50000]*50000
                  +test.value[100000]*100000+test.value[200000]*200000+test.value[500000]*500000;
     return balance;
+}
+void checkTransHistory(const string& path) {
+    ifstream fileAccountHistoryIn;
+    fileAccountHistoryIn.open(path,ios_base::in);
+    if(fileAccountHistoryIn.is_open())
+    {
+        int i=0;
+        while(fileAccountHistoryIn.eof())
+        {
+            i++;
+            string temp;
+            getline(fileAccountHistoryIn,temp);
+            cout << temp << "\n";
+        }
+        if(i==0) cout << "Your transaction history is clear. Let make some transaction." << "\n";
+    }
+    else cout << "Can't open file.";
+    fileAccountHistoryIn.close();
 }
