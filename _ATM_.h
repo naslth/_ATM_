@@ -12,36 +12,28 @@
 
 using namespace std;
 
-struct user
+struct User
 {
     string id;
     string pass;
-    map<int,int> value;
-    user() {};
-    user(string _id, string _pass)
-    {
-        id=_id;
-        pass=_pass;
-        value[10000]=0;
-        value[20000]=0;
-        value[50000]=0;
-        value[100000]=0;
-        value[200000]=0;
-        value[500000]=0;
-    }
+    int balance;
+
     void logIn();
 };
 
 bool is_ID_Valid(string id);
 bool is_Pass_Valid(string pass);
-bool is_Account_In_File(user test,const string& path);
-bool is_Login_Successfully(user test);
+bool is_Account_In_File(User test,const string& path);
+bool is_Login_Successfully(User test);
 void showMenu();
 map<int,int> readDataFromFileToMap(const string& path);
 void writeDataFromMapToFile(map<int,int> _map, const string& path);
-int checkBalance(user test,const string& path);
+int checkBalance(const string& path);
 void checkTransHistory(const string& path);
+void Deposit(const string& path, User test, int moneyDeposit);
+void Withdraw(const string& path, User test, int withdraw);
+bool is_ID_In_ListAccount(string ID);
+void tranfer(string accountTransfer, string accountReceive,int accountTransferBalance, int amount);
 void changePass(string usernameNeedToChangePass, string newPass);
-void tranfer(string accountTransferFrom, string accountTransferTo);
 
 #endif // _ATM_H_
