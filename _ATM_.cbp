@@ -35,6 +35,8 @@
 		<Unit filename="_ATM_.cpp" />
 		<Unit filename="_ATM_.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mysupplib.cpp" />
+		<Unit filename="mysupplib.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

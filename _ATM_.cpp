@@ -1,10 +1,10 @@
-#include"_ATM_.h"
+#include "_ATM_.h"
 void User::logIn()
 {
     cout << "Enter your ID: ";
     getline(cin,this->id);
     cout << "Enter your password: ";
-    getline(cin,this->pass);
+    this->pass=maskingPass();
 }
 bool is_ID_Valid(string id)
 {

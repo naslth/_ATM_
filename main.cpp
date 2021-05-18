@@ -1,4 +1,5 @@
-#include"_ATM_.h"
+#include "_ATM_.h"
+
 int main()
 {
     const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};

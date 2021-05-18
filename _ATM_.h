@@ -1,8 +1,7 @@
 #ifndef _ATM_H_
 #define _ATM_H_
 
-#include <windows.h>
-#include <iostream>
+#include "mysupplib.h"
 #include <fstream>
 #include <string>
 #include <map>
