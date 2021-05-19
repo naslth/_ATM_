@@ -17,14 +17,15 @@ struct User
     string pass;
     int balance;
 
-    void logIn();
 };
 
 bool is_ID_Valid(string id);
 bool is_Pass_Valid(string pass);
 bool is_Account_In_File(User test,const string& path);
 bool is_Login_Successfully(User test);
-void showMenu();
+int showDisplayAndChooseOpt(int x, int y);
+int showMenuAndChooseOpt(int x, int y);
+int showOptAndChoose(int x,int y,int caseOpt);
 map<int,int> readDataFromFileToMap(const string& path);
 void writeDataFromMapToFile(map<int,int> _map, const string& path);
 int checkBalance(const string& path);

@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1621334104 source:d:\c++\_atm_\main.cpp
+1621415005 source:d:\c++\_atm_\main.cpp
 	"_ATM_.h"
 
-1621334104 d:\c++\_atm_\_atm_.h
+1621396252 d:\c++\_atm_\_atm_.h
 	"mysupplib.h"
 	<fstream>
 	<string>
@@ -11,13 +11,13 @@
 	<algorithm>
 	<cstdlib>
 
-1621334104 source:d:\c++\_atm_\_atm_.cpp
+1621414675 source:d:\c++\_atm_\_atm_.cpp
 	"_ATM_.h"
 
-1621337512 source:d:\c++\_atm_\mysupplib.cpp
+1621415058 source:d:\c++\_atm_\mysupplib.cpp
 	"mysupplib.h"
 
-1621337642 d:\c++\_atm_\mysupplib.h
+1621397011 d:\c++\_atm_\mysupplib.h
 	<iostream>
 	<windows.h>
 	<conio.h>

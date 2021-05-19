@@ -7,7 +7,10 @@
 #include <string>
 
 void setColor(int numcolor);
-void gotoXY(int x,int y);
+void gotoXY(SHORT x,SHORT y);
+void setConsoleSize(SHORT width, SHORT height);
+void setConsoleScreenBufferSize(SHORT width, SHORT height);
 std::string maskingPass();
+void ShowCur(bool is_show);
 
 #endif // mysupplib_H_

@@ -1,11 +1,5 @@
 #include "_ATM_.h"
-void User::logIn()
-{
-    cout << "Enter your ID: ";
-    getline(cin,this->id);
-    cout << "Enter your password: ";
-    this->pass=maskingPass();
-}
+
 bool is_ID_Valid(string id)
 {
     int length=id.size();
@@ -20,6 +14,8 @@ bool is_ID_Valid(string id)
     }
     return true;
 }
+
+
 bool is_Pass_Valid(string pass)
 {
     bool check1=false;
@@ -53,6 +49,8 @@ bool is_Pass_Valid(string pass)
     else
         return false;
 }
+
+
 bool is_Account_In_File(User test,const string& path)
 {
     ifstream fileIn;
@@ -73,6 +71,8 @@ bool is_Account_In_File(User test,const string& path)
     fileIn.close();
     return false;
 }
+
+
 bool is_Login_Successfully(User test)
 {
     int check=5;
@@ -82,27 +82,282 @@ bool is_Login_Successfully(User test)
         if (check == 0)
             return false;
         cout << "Your ID or password is incorrect. Please try again!" << "\n";
+        Sleep(1500);
+        system("cls");
         if(check!=1)
             cout << "You have " << check << " attempts left." << "\n";
         else
             cout << "You have " << check << " attempt left." << "\n";
-        test.logIn();
+        cout << "Enter your ID: ";
+        getline(cin,test.id);
+        cout << "Enter your password: ";
+        test.pass=maskingPass();
+        cout << "\n";
     }
     return true;
 }
-void showMenu()
+
+
+int showDisplayAndChooseOpt(int x, int y)
 {
-    cout << "-------------MENU-------------" << "\n";
-    cout << "    1.   Transaction history  " << "\n";
-    cout << "    2.   Check your balance   " << "\n";
-    cout << "    3.   Deposit              " << "\n";
-    cout << "    4.   Withdraw             " << "\n";
-    cout << "    5.   Transfer             " << "\n";
-    cout << "    6.   Change Password      " << "\n";
-    cout << "    7.   Log out              " << "\n";
-    cout << "------------------------------" << "\n" << "\n";
-    cout << "    Please choose an option: ";
+    int Color[] = {7,7,7,7};
+    int counter=1;
+    int answer;
+    char key;
+    ShowCur(false);
+    gotoXY(x/2-17,y/2-11);
+    setColor(Color[0]);
+    cout << "This is my ATM - BANKING SYSTEM !!!";
+    int a = y/2-9;
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
+            gotoXY(x/2-15 + j, a);
+            cout << "-";
+        }
+        a++;
+        if (i != 3)
+        {
+            for(int j=a; j<a+3; j++)
+            {
+                gotoXY(x/2-15, j);
+                cout << "|";
+                gotoXY(x/2-15 + 29, j);
+                cout << "|";
+            }
+        }
+        a=a+3;
+    }
+    while(true)
+    {
+
+        gotoXY(x/2-14,y/2-7);
+        setColor(Color[1]);
+        cout << " 1.  Sign up for an account";
+
+        gotoXY(x/2-14,y/2-3);
+        setColor(Color[2]);
+        cout << " 2.  Log in to account";
+
+        gotoXY(x/2-14,y/2+1);
+        setColor(Color[3]);
+        cout << " 3.  Exit";
+
+        key=_getch();
+        if(key==72&&(counter>=2&&counter<=3))
+        {
+            counter--;
+        }
+        if(key==80&&(counter>=1&&counter<=2))
+        {
+            counter++;
+        }
+        if(key=='\r')
+        {
+            answer=counter;
+            system("cls");
+            break;
+        }
+        for(int i=1; i<=3; i++)
+        {
+            if(counter==i)
+            {
+                Color[i]=12;
+            }
+            else
+                Color[i]=7;
+        }
+    }
+    setColor(7);
+    ShowCur(true);
+    return answer;
 }
+
+
+int showMenuAndChooseOpt(int x, int y)
+{
+    int Color[] = {7,7,7,7,7,7,7,7};
+    int counter=1;
+    int answer;
+    char key;
+    ShowCur(false);
+    gotoXY(x/2-15,y/2-12);
+    setColor(Color[0]);
+    cout << "-----------------MENU-----------------";
+    int a = y/2-11;
+    for (int i = 0; i < 8; i++)
+    {
+        if(i!=0)
+        {
+            for (int j = 0; j < 38; j++)
+            {
+                gotoXY(x/2-15 + j, a);
+                cout << "-";
+            }
+            a++;
+        }
+        if (i != 7)
+        {
+            gotoXY(x/2-15, a);
+            cout << "|";
+            gotoXY(x/2-15 + 37, a);
+            cout << "|";
+            gotoXY(x/2-15, a+1);
+            cout << "|";
+            gotoXY(x/2-15 + 37, a+1);
+            cout << "|";
+        }
+        a=a+2;
+    }
+    while(true)
+    {
+
+        gotoXY(x/2-14,y/2-10);
+        setColor(Color[1]);
+        cout << "    1.   Transaction history";
+
+        gotoXY(x/2-14,y/2-7);
+        setColor(Color[2]);
+        cout << "    2.   Check your balance";
+
+        gotoXY(x/2-14,y/2-4);
+        setColor(Color[3]);
+        cout << "    3.   Deposit";
+
+        gotoXY(x/2-14,y/2-1);
+        setColor(Color[4]);
+        cout << "    4.   Withdraw";
+
+        gotoXY(x/2-14,y/2+2);
+        setColor(Color[5]);
+        cout << "    5.   Transfer";
+
+        gotoXY(x/2-14,y/2+5);
+        setColor(Color[6]);
+        cout << "    6.   Change Password";
+
+        gotoXY(x/2-14,y/2+8);
+        setColor(Color[7]);
+        cout << "    7.   Log out";
+
+        key=_getch();
+        if(key==72&&(counter>=2&&counter<=7))
+        {
+            counter--;
+        }
+        if(key==80&&(counter>=1&&counter<=6))
+        {
+            counter++;
+        }
+        if(key=='\r')
+        {
+            answer=counter;
+            system("cls");
+            break;
+        }
+        for(int i=1; i<=7; i++)
+        {
+            if(counter==i)
+            {
+                Color[i]=12;
+            }
+            else
+                Color[i]=7;
+        }
+    }
+    setColor(7);
+    ShowCur(true);
+    return answer;
+}
+
+
+int showOptAndChoose(int x,int y,int caseOpt)
+{
+    int Color[] = {7,7};
+    int counter=1;
+    int answer;
+    char key;
+    ShowCur(false);
+    gotoXY(x/2-14,y/2-11);
+    setColor(Color[0]);
+    cout << "Please choose an option";
+    int a = y/2-9;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 35; j++)
+        {
+            gotoXY(x/2-15 + j, a);
+            cout << "-";
+        }
+        a++;
+        if (i != 2)
+        {
+            for(int j=a; j<a+3; j++)
+            {
+                gotoXY(x/2-15, j);
+                cout << "|";
+                gotoXY(x/2-15 + 34, j);
+                cout << "|";
+            }
+        }
+        a=a+3;
+    }
+    while(true)
+    {
+
+        gotoXY(x/2-14,y/2-7);
+        setColor(Color[1]);
+        if(caseOpt==1)
+            cout << " 1.  Check transaction history";
+        else if(caseOpt==2)
+            cout << " 1.   Check balance";
+        else if(caseOpt==3)
+            cout << " 1.   Deposit";
+        else if(caseOpt==4)
+            cout << " 1.   Withdraw";
+        else if(caseOpt==5)
+            cout << " 1.   Tranfer";
+        else if(caseOpt==6)
+            cout << " 1.   Change password";
+        else if(caseOpt==7)
+            cout << " 1.   Log out";
+
+        gotoXY(x/2-14,y/2-3);
+        setColor(Color[2]);
+        cout << " 2.   Return";
+
+        key=_getch();
+        if(key==72&&(counter==2))
+        {
+            counter--;
+        }
+        if(key==80&&(counter==1))
+        {
+            counter++;
+        }
+        if(key=='\r')
+        {
+            answer=counter;
+            system("cls");
+            break;
+        }
+        for(int i=1; i<=2; i++)
+        {
+            if(counter==i)
+            {
+                Color[i]=12;
+            }
+            else
+                Color[i]=7;
+        }
+    }
+    setColor(7);
+    ShowCur(true);
+    return answer;
+}
+
+
 map<int,int> readDataFromFileToMap(const string& path)
 {
     map<int,int> _map;
@@ -127,6 +382,8 @@ map<int,int> readDataFromFileToMap(const string& path)
     fileIn.close();
     return _map;
 }
+
+
 void writeDataFromMapToFile(map<int,int> _map, const string& path)
 {
     map<int, int>::iterator i;
@@ -143,6 +400,8 @@ void writeDataFromMapToFile(map<int,int> _map, const string& path)
         cout << "Can't open file." << "\n";
     fileOut.close();
 }
+
+
 int checkBalance(const string& path)
 {
     int balance;
@@ -157,6 +416,8 @@ int checkBalance(const string& path)
     fileAccountIn.close();
     return balance;
 }
+
+
 void checkTransHistory(const string& path)
 {
     ifstream fileAccountIn;
@@ -166,7 +427,6 @@ void checkTransHistory(const string& path)
         int i=0;
         int balance;
         fileAccountIn >> balance;
-        cin.ignore();
         while(!fileAccountIn.eof())
         {
             i++;
@@ -176,11 +436,15 @@ void checkTransHistory(const string& path)
         }
         if(i==0)
             cout << "Your transaction history is clear. Let make some transaction." << "\n";
+        else
+            cout << "This is your transaction history: " << "\n";
     }
     else
         cout << "Can't open file." << "\n";
     fileAccountIn.close();
 }
+
+
 void Deposit(const string& _path, User test, int moneyDeposit)
 {
     const char* path=_path.c_str();
@@ -195,13 +459,15 @@ void Deposit(const string& _path, User test, int moneyDeposit)
         tempOut << test.balance << "\n";
         int temp;
         fileAccountIn >> temp;
-        string line;
-        cin.ignore();
+        fileAccountIn.seekg(1,ios_base::cur);
         while(!fileAccountIn.eof())
         {
+            string line;
             getline(fileAccountIn,line);
             tempOut << line << "\n";
         }
+        tempOut.seekp(-1,ios_base::cur);
+        tempOut << "You have deposited " << moneyDeposit << " VND." << "\n";
     }
     else
         cout << "Can't open file.";
@@ -209,16 +475,9 @@ void Deposit(const string& _path, User test, int moneyDeposit)
     tempOut.close();
     remove(path);
     rename("temp.txt",path);
-    ofstream fileAccountOut;
-    fileAccountOut.open(path,ios_base::app);
-    if(fileAccountOut.is_open())
-    {
-        fileAccountOut << "You have deposited " << moneyDeposit << " VND." << "\n";
-    }
-    else
-        cout << "Can't open file." << "\n";
-    fileAccountOut.close();
 }
+
+
 void Withdraw(const string& _path, User test, int withdraw)
 {
     const char* path=_path.c_str();
@@ -264,13 +523,15 @@ void Withdraw(const string& _path, User test, int withdraw)
                 tempOut << test.balance << "\n";
                 int temp;
                 fileAccountIn >> temp;
-                string line;
-                cin.ignore();
+                fileAccountIn.seekg(1,ios_base::cur);
                 while(!fileAccountIn.eof())
                 {
+                    string line;
                     getline(fileAccountIn,line);
                     tempOut << line << "\n";
                 }
+                tempOut.seekp(-1,ios_base::cur);
+                tempOut << "You have withdrawn " << withdraw << " VND." << "\n";
             }
             else
                 cout << "Can't open file.";
@@ -279,15 +540,6 @@ void Withdraw(const string& _path, User test, int withdraw)
             remove(path);
             rename("temp.txt",path);
             writeDataFromMapToFile(ATM_money,"ATMinfo.txt");
-            ofstream fileAccountOut;
-            fileAccountOut.open(path,ios_base::app);
-            if(fileAccountOut.is_open())
-            {
-                fileAccountOut << "You have withdrawn " << withdraw << " VND." << "\n";
-            }
-            else
-                cout << "Can't open file." << "\n";
-            fileAccountOut.close();
             cout << "Please wait a second..." << "\n";
             Sleep(1000);
             cout << "Successful withdrawal!" << "\n";
@@ -298,10 +550,10 @@ void Withdraw(const string& _path, User test, int withdraw)
             }
             cout << "Your current balance is: " << test.balance << " VND." << "\n";
             char temp;
-            cout << "Enter 'b' to go back: ";
+            cout << "Press 'b' to go back";
             do
             {
-                cin >> temp;
+                temp=_getch();
             }
             while(temp!='b');
             break; // out khỏi vòng for
@@ -314,6 +566,8 @@ void Withdraw(const string& _path, User test, int withdraw)
         Sleep(1000);
     }
 }
+
+
 bool is_ID_In_ListAccount(string ID)
 {
     ifstream fileIn;
@@ -335,6 +589,8 @@ bool is_ID_In_ListAccount(string ID)
     return false;
 
 }
+
+
 void tranfer(string accountTransfer, string accountReceive,int accountTransferBalance, int amount)
 {
     const char* accountTransferInfo=(accountTransfer+"Info.txt").c_str();
@@ -351,12 +607,15 @@ void tranfer(string accountTransfer, string accountReceive,int accountTransferBa
         tempOut << accountTransferBalance << "\n";
         int temp;
         fileAccountIn >> temp;
+        fileAccountIn.seekg(1,ios_base::cur);
         string line;
         while(!fileAccountIn.eof())
         {
             getline(fileAccountIn,line);
             tempOut << line << "\n";
         }
+        tempOut.seekp(-1,ios_base::cur);
+        tempOut << "You have transferred " << amount << " VND to " << accountReceive << "\n";
     }
     else
         cout << "Can't open file.";
@@ -371,12 +630,15 @@ void tranfer(string accountTransfer, string accountReceive,int accountTransferBa
         tempOut << accountReceiveBalance << "\n";
         int temp;
         fileAccountIn >> temp;
+        fileAccountIn.seekg(1,ios_base::cur);
         string line;
         while(!fileAccountIn.eof())
         {
             getline(fileAccountIn,line);
             tempOut << line << "\n";
         }
+        tempOut.seekp(-1,ios_base::cur);
+        tempOut << "You have received " << amount << " VND from " << accountTransfer << "\n";
     }
     else
         cout << "Can't open file.";
@@ -384,24 +646,9 @@ void tranfer(string accountTransfer, string accountReceive,int accountTransferBa
     tempOut.close();
     remove(accountReceiveInfo);
     rename("temp.txt",accountReceiveInfo);
-    ofstream fileAccountOut;
-    fileAccountOut.open(accountTransferInfo,ios_base::app);
-    if(fileAccountOut.is_open())
-    {
-        fileAccountOut << "You have transferred " << amount << " VND to " << accountReceive << "\n";
-    }
-    else
-        cout << "Can't open file." << "\n";
-    fileAccountOut.close();
-    fileAccountOut.open(accountReceiveInfo,ios_base::app);
-    if(fileAccountOut.is_open())
-    {
-        fileAccountOut << "You have received " << amount << " VND from " << accountTransfer << "\n";
-    }
-    else
-        cout << "Can't open file." << "\n";
-    fileAccountOut.close();
 }
+
+
 void changePass(string usernameNeedToChangePass, string newPass)
 {
     ifstream fileListAcccountIn;
@@ -421,6 +668,9 @@ void changePass(string usernameNeedToChangePass, string newPass)
             else
                 getline(fileListAcccountIn,line);
         }
+        tempOut.seekp(-1,ios_base::cur);
+        tempOut << usernameNeedToChangePass << "\n";
+        tempOut << newPass << "\n";
     }
     else
         cout << "Can't open file." << "\n";
@@ -428,15 +678,5 @@ void changePass(string usernameNeedToChangePass, string newPass)
     tempOut.close();
     remove("listAccount.txt");
     rename("temp.txt", "listAccount.txt");
-    ofstream fileListAccountOut;
-    fileListAccountOut.open("listAccount.txt",ios_base::app);
-    if(fileListAccountOut.is_open())
-    {
-        fileListAccountOut << usernameNeedToChangePass << "\n";
-        fileListAccountOut << newPass << "\n";
-    }
-    else
-        cout << "Can't open file." << "\n";
-    fileListAccountOut.close();
 }
 
