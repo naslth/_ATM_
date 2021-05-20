@@ -32,11 +32,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="_ATM_.cpp" />
-		<Unit filename="_ATM_.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="mysupplib.cpp" />
-		<Unit filename="mysupplib.h" />
+		<Unit filename="include/_ATM_.h" />
+		<Unit filename="include/mysupplib.h" />
+		<Unit filename="include/showScreen.h" />
+		<Unit filename="src/_ATM_.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/mysupplib.cpp" />
+		<Unit filename="src/showScreen.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

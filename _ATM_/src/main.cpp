@@ -1,16 +1,18 @@
-#include "_ATM_.h"
+#include "../include/_ATM_.h"
+#include "../include/showScreen.h"
+
+#define WIDTH 95
+#define HEIGHT 35
+const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 
 int main()
 {
-    setConsoleScreenBufferSize(95,35);
-    setConsoleSize(95,35);
-    SetConsoleTitle(TEXT("The ATM - BANKING SYSTEM"));
-    const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
+    setConsoleScreen(WIDTH,HEIGHT);
     bool exit = false;
     while(!exit)
     {
-//In ra màn hình của cây ATM
-        int answer=showDisplayAndChooseOpt(95,35);
+//In ra màn hình của cây ATM và chọn opt
+        int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT);
 //Đăng ký tài khoản mới
         if(answer==1)
         {
@@ -38,7 +40,7 @@ int main()
                 cout << "Confirm your pass word: ";
                 passcf=maskingPass();
                 cout << "\n";
-// Kiểm tra tài khoản hợp lệ không và đã tồn tại chưa
+// Kiểm tra tài khoản hợp lệ không
                 if(!is_ID_Valid(temp.id))
                 {
                     cout << "Your ID is invalid. Please try again!" << "\n";
@@ -63,7 +65,7 @@ int main()
                 else
                 {
                     fstream fileListAccount;
-                    fileListAccount.open("listAccount.txt",ios_base::app);
+                    fileListAccount.open("data\\listAccount.txt",ios_base::app);
                     if(fileListAccount.is_open())
                     {
                         fileListAccount << temp.id << "\n";
@@ -76,7 +78,7 @@ int main()
                 }
             }
 // Tạo file chứa thông tin của tài khoản vừa đăng ký và ghi vào số dư hiện tại (0 VND)
-            accountInfo=temp.id + "Info.txt";
+            accountInfo="data\\" + temp.id + "Info.txt";
             ofstream fileAccountInfo;
             fileAccountInfo.open(accountInfo,ios_base::out);
             if(!fileAccountInfo.is_open())
@@ -118,8 +120,8 @@ int main()
                 cout << "Please wait a second..." << "\n";
                 Sleep(1000);
                 cout << "Log in successfully!" << "\n";
-                const string accountInfo=test.id+"Info.txt"; // khởi tạo đường dẫn đến file thông tin tài khoản
-                bool logOut=false;
+                const string accountInfo="data\\" + test.id + "Info.txt"; // khởi tạo đường dẫn đến file thông tin tài khoản
+                bool logOut = false;
                 while(!logOut)
                 {
                     system("cls");
@@ -134,9 +136,10 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int hOpt=showOptAndChoose(95,35,1);
+                            int hOpt=showOptAndChoose(WIDTH,HEIGHT,1);
                             if(hOpt==1)
                             {
+                                cout << "Your transaction history: " << "\n";
                                 checkTransHistory(accountInfo);
                                 char temp;
                                 cout << "Press 'b' to go back";
@@ -157,7 +160,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int bOpt=showOptAndChoose(95,35,2);
+                            int bOpt=showOptAndChoose(WIDTH,HEIGHT,2);
                             if(bOpt==1)
                             {
                                 int balance;
@@ -182,7 +185,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int dOpt=showOptAndChoose(95,35,3);
+                            int dOpt=showOptAndChoose(WIDTH,HEIGHT,3);
                             if(dOpt==1)
                             {
                                 cout << "Please wait a second to go to process..."<< "\n";
@@ -216,14 +219,14 @@ int main()
                                 Sleep(1000);
                                 cout << "Deposit successfully. Your current balance is: " << currentBalance << " VND" << "\n";
 // Đọc thông tin trong cây ATM, tăng số tờ và cập nhật lại vào file;
-                                ATM_money=readDataFromFileToMap("ATMinfo.txt");
+                                ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
                                 fstream fileATM;
                                 for (i = ATM_money.begin(); i != ATM_money.end(); i++)
                                 {
                                     if((i->first)==denominations)
                                         (i->second)+=bills;
                                 }
-                                writeDataFromMapToFile(ATM_money,"ATMinfo.txt");
+                                writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
                                 char temp;
                                 cout << "Press 'b' to go back";
                                 do
@@ -244,7 +247,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int wOpt=showOptAndChoose(95,35,4);
+                            int wOpt=showOptAndChoose(WIDTH,HEIGHT,4);
 // Rút tiền
                             if(wOpt==1)
                             {
@@ -252,7 +255,7 @@ int main()
                                 Sleep(1000);
                                 system("cls");
 // Đọc số dư tài khoản, đọc số tờ có trong cây ATM
-                                ATM_money=readDataFromFileToMap("ATMinfo.txt");
+                                ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
                                 test.balance=checkBalance(accountInfo);
                                 int minwithdraw;
 // Kiểm tra trong cây ATM số tiền nhỏ nhất có thể rút được
@@ -298,7 +301,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int tOpt=showOptAndChoose(95,35,5);
+                            int tOpt=showOptAndChoose(WIDTH,HEIGHT,5);
                             if(tOpt==1)
                             {
                                 cout << "Please wait a second to go to process..."<< "\n";
@@ -353,7 +356,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int pOpt=showOptAndChoose(95,35,6);
+                            int pOpt=showOptAndChoose(WIDTH,HEIGHT,6);
                             if(pOpt==1)
                             {
                                 cout << "Please wait a second to go to process..."<< "\n";
@@ -410,7 +413,7 @@ int main()
                     case 7:
                     {
                         system("cls");
-                        int eOpt=showOptAndChoose(95,35,7);
+                        int eOpt=showOptAndChoose(WIDTH,HEIGHT,7);
                         if(eOpt==1)
                         {
                             cout << "Please wait a second..." << "\n";
