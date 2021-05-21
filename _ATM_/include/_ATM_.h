@@ -2,33 +2,52 @@
 #define _ATM_H_
 
 #include "mysupplib.h"
-#include <fstream>
-#include <string>
-#include <map>
 #include <vector>
 #include <algorithm>
-#include <cstdlib>
 
 using namespace std;
 
-struct User
+class User
 {
+private:
+
     string id;
+
     string pass;
+
     int balance;
 
+public:
+
+    User();
+
+    User(string _id,string _pass, int _balance);
+
+    ~User();
+
+    void setInfo(string _id,string _pass);
+
+    void setBalance(int _balance);
+
+    bool is_Account_In_Datafile();
+
+    bool is_Login_Successfully();
+
+    int checkBalance(const string& path);
+
+    void checkTransHistory(const string& path);
+
+    void Deposit(const string& path, int moneyDeposit);
+
+    void Withdraw(const string& path, int withdraw);
+
+    bool is_ID_In_ListAccount();
+
+    friend void tranfer(User accountTranfer,User accountRecieve , int amount);
+
+    void changePass(string newPass);
 };
 
-bool is_ID_Valid(string id);
-bool is_Pass_Valid(string pass);
-bool is_Account_In_File(User test,const string& path);
-bool is_Login_Successfully(User test);
-int checkBalance(const string& path);
-void checkTransHistory(const string& path);
-void Deposit(const string& path, User test, int moneyDeposit);
-void Withdraw(const string& path, User test, int withdraw);
-bool is_ID_In_ListAccount(string ID);
-void tranfer(string accountTransfer, string accountReceive,int accountTransferBalance, int amount);
-void changePass(string usernameNeedToChangePass, string newPass);
+
 
 #endif // _ATM_H_

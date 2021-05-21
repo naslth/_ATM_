@@ -1,9 +1,11 @@
 #include "../include/mysupplib.h"
 
+
 void setColor(int numColor)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),numColor);
 }
+
 
 
 void gotoXY(SHORT x,SHORT y)
@@ -13,6 +15,7 @@ void gotoXY(SHORT x,SHORT y)
     c.Y=y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),c);
 }
+
 
 
 void setConsoleSize(SHORT width, SHORT height)
@@ -26,6 +29,7 @@ void setConsoleSize(SHORT width, SHORT height)
 }
 
 
+
 void setConsoleScreenBufferSize(SHORT width, SHORT height)
 {
     COORD c;
@@ -35,12 +39,65 @@ void setConsoleScreenBufferSize(SHORT width, SHORT height)
 }
 
 
+
 void ShowCur(bool is_show)
 {
     CONSOLE_CURSOR_INFO CurInf;
     CurInf.dwSize = 10;
     CurInf.bVisible = is_show;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CurInf);
+}
+
+
+
+bool is_ID_Valid(std::string id)
+{
+    int length=id.size();
+    if(length<8||length>20)
+        return false;
+    for(int i=0; i<length; i++)
+    {
+        if((id[i]>='a'&&id[i]<='z')||(id[i]>='A'&&id[i]<='Z')||(id[i]>='0'&&id[i]<='9')||id[i]=='_'||id[i]=='.'||id[i]=='@')
+            continue;
+        else
+            return false;
+    }
+    return true;
+}
+
+
+bool is_Pass_Valid(std::string pass)
+{
+    bool check1=false;
+    bool check2=false;
+    int length=pass.size();
+    if(length<8||length>20)
+        return false;
+    for(int i=0; i<length; i++)
+    {
+        if(pass[i]==' ')
+            return false;
+    }
+    for(int i=0; i<length; i++)
+    {
+        if(pass[i]>='A'&&pass[i]<='Z')
+        {
+            check1=true;
+            break;
+        }
+    }
+    for(int i=0; i<length; i++)
+    {
+        if(pass[i]>='0'&&pass[i]<='9')
+        {
+            check2=true;
+            break;
+        }
+    }
+    if(check1==true&&check2==true)
+        return true;
+    else
+        return false;
 }
 
 
@@ -55,7 +112,7 @@ std::string maskingPass()
             std::cout << "*";
             maskedPass+=temp;
         }
-        else
+        else if(maskedPass.size()!=0)
         {
             std::cout << "\b" << " " << "\b";
             maskedPass.pop_back();
@@ -63,6 +120,7 @@ std::string maskingPass()
     }
     return maskedPass;
 }
+
 
 
 std::map<int,int> readDataFromFileToMap(const std::string& path)
@@ -89,6 +147,7 @@ std::map<int,int> readDataFromFileToMap(const std::string& path)
     fileIn.close();
     return _map;
 }
+
 
 
 void writeDataFromMapToFile(std::map<int,int> _map, const std::string& path)
@@ -134,4 +193,15 @@ void updateBalanceInFile(const std::string& _path,int newBalance) {
     tempOut.close();
     std::remove(path);
     rename("data\\temp.txt",path);
+}
+
+
+void goBack() {
+    char temp;
+    std::cout << "Press 'b' to go back";
+    do
+    {
+        temp=_getch();
+    }
+    while(temp!='b');
 }

@@ -1,10 +1,13 @@
 #ifndef showScreen_H
 #define showScreen_H
 
+#include "mysupplib.h"
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
 
+#define RED 12
+#define WHITE 7
 
 void setConsoleScreen(int width, int height);
 

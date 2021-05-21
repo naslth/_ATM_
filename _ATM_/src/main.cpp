@@ -5,14 +5,15 @@
 #define HEIGHT 35
 const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 
+
 int main()
 {
     setConsoleScreen(WIDTH,HEIGHT);
+
     bool exit = false;
     while(!exit)
     {
-//In ra màn hình của cây ATM và chọn opt
-        int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT);
+        int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT); //In ra màn hình của cây ATM và chọn option
 //Đăng ký tài khoản mới
         if(answer==1)
         {
@@ -20,6 +21,9 @@ int main()
             Sleep(1000);
             string accountInfo="";
             User temp;
+            string tempID;
+            string tempPass;
+            string passcf;
             while(true)
             {
                 system("cls");
@@ -30,46 +34,46 @@ int main()
                      << "Password: " << "\n"
                      << "   - Must be at least 8 characters but not more than 20." << "\n"
                      << "   - Must contain at least one uppercase letter and one number."  << "\n"
-                     << "REMEMBER that both username and password MUST NOT contain spaces." << "\n";
-                string passcf;
-                cout << "Enter your ID: ";
-                getline(cin,temp.id);
-                cout << "Enter your password: ";
-                temp.pass=maskingPass();
+                     << "REMEMBER that both username and password MUST NOT contain spaces." << "\n\n";
+                cout << "   Enter your ID: ";
+                getline(cin,tempID);
+                cout << "   Enter your password: ";
+                tempPass=maskingPass();
+                temp.setInfo(tempID,tempPass);
                 cout << "\n";
-                cout << "Confirm your pass word: ";
+                cout << "   Confirm your pass word: ";
                 passcf=maskingPass();
                 cout << "\n";
 // Kiểm tra tài khoản hợp lệ không
-                if(!is_ID_Valid(temp.id))
+                if(!is_ID_Valid(tempID))
                 {
                     cout << "Your ID is invalid. Please try again!" << "\n";
                     Sleep(700);
                 }
-                else if(!is_Pass_Valid(temp.pass))
+                else if(!is_Pass_Valid(tempPass))
                 {
                     cout << "Your password is invalid. Please try again!" << "\n";
                     Sleep(700);
                 }
-                else if(passcf!=temp.pass)
+                else if(passcf!=tempPass)
                 {
                     cout << "Password confirmation is not match. Please try again!" << "\n";
                     Sleep(700);
                 }
-                else if(is_ID_In_ListAccount(temp.id))
+                else if(temp.is_ID_In_ListAccount())
                 {
                     cout << "Your ID already exists. Please try again!" << "\n";
                     Sleep(700);
                 }
-// Nếu chưa tồn tại thì ghi vào file danh sách tài khoản và thoát ra
+// Nếu chưa tồn tại thì ghi vào file danh sách tài khoản
                 else
                 {
                     fstream fileListAccount;
                     fileListAccount.open("data\\listAccount.txt",ios_base::app);
                     if(fileListAccount.is_open())
                     {
-                        fileListAccount << temp.id << "\n";
-                        fileListAccount << temp.pass << "\n";
+                        fileListAccount << tempID << "\n";
+                        fileListAccount << tempPass << "\n";
                     }
                     else
                         cout << "Can't open file.";
@@ -78,7 +82,7 @@ int main()
                 }
             }
 // Tạo file chứa thông tin của tài khoản vừa đăng ký và ghi vào số dư hiện tại (0 VND)
-            accountInfo="data\\" + temp.id + "Info.txt";
+            accountInfo="data\\" + tempID + "Info.txt";
             ofstream fileAccountInfo;
             fileAccountInfo.open(accountInfo,ios_base::out);
             if(!fileAccountInfo.is_open())
@@ -86,11 +90,11 @@ int main()
             else
                 fileAccountInfo << "0";
             fileAccountInfo.close();
-            cout << "Please wait a second..." << "\n";
+            cout << "Please wait a second..." << "\n\n";
             Sleep(1000);
             cout << "Sign up successfully." << "\n";
-            cout << "Your ID is: " << temp.id << "\n";
-            cout << "Your password is: " << temp.pass << "\n";
+            cout << "   Your ID is: " << tempID << "\n";
+            cout << "   Your password is: " << tempPass << "\n\n";
             cout << "Please wait a second and log in to your account..." << "\n";
             Sleep(2000);
             system("cls");
@@ -98,17 +102,20 @@ int main()
 //Đăng nhập vào tài khoản
         else if(answer==2)
         {
-            cout << "Please wait a second to go to log in process..." << "\n";
+            cout << "Please wait a second to go to log in process...";
             Sleep(1000);
             system("cls");
             User test;
+            string testID;
+            string testPass;
             cout << "Enter your ID: ";
-            getline(cin,test.id);
+            getline(cin,testID);
             cout << "Enter your password: ";
-            test.pass=maskingPass();
+            testPass=maskingPass();
             cout << "\n";
+            test.setInfo(testID,testPass);
 // Nếu đăng nhập thành công thì mở MENU
-            if(is_Login_Successfully(test))
+            if(test.is_Login_Successfully())
             {
                 map<int,int> ATM_money;
                 map<int, int>::iterator i;
@@ -120,12 +127,13 @@ int main()
                 cout << "Please wait a second..." << "\n";
                 Sleep(1000);
                 cout << "Log in successfully!" << "\n";
-                const string accountInfo="data\\" + test.id + "Info.txt"; // khởi tạo đường dẫn đến file thông tin tài khoản
+                Sleep(1000);
+                const string accountInfo="data\\" + testID + "Info.txt"; // khởi tạo đường dẫn đến file thông tin tài khoản
                 bool logOut = false;
                 while(!logOut)
                 {
                     system("cls");
-                    int menuOpt=showMenuAndChooseOpt(95,35);
+                    int menuOpt=showMenuAndChooseOpt(WIDTH,HEIGHT);
                     cout << "Please wait a second..." << "\n";
                     Sleep(1000);
                     switch(menuOpt)
@@ -139,15 +147,9 @@ int main()
                             int hOpt=showOptAndChoose(WIDTH,HEIGHT,1);
                             if(hOpt==1)
                             {
-                                cout << "Your transaction history: " << "\n";
-                                checkTransHistory(accountInfo);
-                                char temp;
-                                cout << "Press 'b' to go back";
-                                do
-                                {
-                                    temp=_getch();
-                                }
-                                while(temp!='b');
+                                cout << "\t\t\t\t Transaction history" << "\n\n";
+                                test.checkTransHistory(accountInfo);
+                                goBack();
                             }
                             if(hOpt==2)
                                 break;
@@ -164,15 +166,10 @@ int main()
                             if(bOpt==1)
                             {
                                 int balance;
-                                balance=checkBalance(accountInfo);
+                                balance=test.checkBalance(accountInfo);
+                                test.setBalance(balance);
                                 cout << "Your balance is: " << balance << " VND." << "\n";
-                                char temp;
-                                cout << "Press 'b' to go back";
-                                do
-                                {
-                                    temp=_getch();
-                                }
-                                while(temp!='b');
+                                goBack();
                             }
                             if(bOpt==2)
                                 break;
@@ -213,8 +210,9 @@ int main()
                                 cin.ignore();
                                 int moneyDeposit=denominations*bills;
 // Đọc số dư từ file, tăng số tiền và cập nhật lại vào file
-                                Deposit(accountInfo,test,moneyDeposit);
-                                int currentBalance=checkBalance(accountInfo);
+                                test.Deposit(accountInfo,moneyDeposit);
+                                int currentBalance=test.checkBalance(accountInfo);
+                                test.setBalance(currentBalance);
                                 cout << "Please wait a second..." << "\n";
                                 Sleep(1000);
                                 cout << "Deposit successfully. Your current balance is: " << currentBalance << " VND" << "\n";
@@ -227,13 +225,7 @@ int main()
                                         (i->second)+=bills;
                                 }
                                 writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
-                                char temp;
-                                cout << "Press 'b' to go back";
-                                do
-                                {
-                                    temp=_getch();
-                                }
-                                while(temp!='b');
+                                goBack();
                             }
 // Trở về MENU
                             if(dOpt==2)
@@ -256,7 +248,8 @@ int main()
                                 system("cls");
 // Đọc số dư tài khoản, đọc số tờ có trong cây ATM
                                 ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
-                                test.balance=checkBalance(accountInfo);
+                                int balance=test.checkBalance(accountInfo);
+                                test.setBalance(balance);
                                 int minwithdraw;
 // Kiểm tra trong cây ATM số tiền nhỏ nhất có thể rút được
                                 for (i = ATM_money.begin(); i != ATM_money.end(); i++)
@@ -268,7 +261,7 @@ int main()
                                     }
                                 }
                                 int withdraw;
-                                cout << "Your current balance is: " << test.balance << " VND." << "\n";
+                                cout << "Your current balance is: " << balance << " VND." << "\n";
                                 cout << "How much do you want to withdraw? ";
                                 cin >> withdraw;
                                 cin.ignore();
@@ -286,7 +279,7 @@ int main()
                                 }
                                 else
                                 {
-                                    Withdraw(accountInfo,test,withdraw);
+                                    test.Withdraw(accountInfo,withdraw);
                                 }
                             }
 // trở về MENU
@@ -304,45 +297,42 @@ int main()
                             int tOpt=showOptAndChoose(WIDTH,HEIGHT,5);
                             if(tOpt==1)
                             {
+                                User accountReceive;
+                                string accountReceiveID;
                                 cout << "Please wait a second to go to process..."<< "\n";
                                 Sleep(1000);
                                 system("cls");
                                 cout << "Enter username (ID) you want to transfer: ";
-                                string accountReceive;
-                                getline(cin,accountReceive);
+                                getline(cin,accountReceiveID);
+                                accountReceive.setInfo(accountReceiveID,"0");
                                 cout << "Enter amount you want to transfer: ";
                                 int amount;
                                 cin >> amount;
                                 cin.ignore();
-                                test.balance=checkBalance(accountInfo);
-                                if(!is_ID_Valid(accountReceive))
+                                int balance=test.checkBalance(accountInfo);
+                                test.setBalance(balance);
+                                if(!is_ID_Valid(accountReceiveID))
                                 {
                                     cout << "Username is invalid. Please try again!" << "\n";
                                     Sleep(1000);
                                 }
-                                else if(test.balance-amount<0)
+                                else if(balance-amount<0)
                                 {
                                     cout << "Your balance is not enough money. Please try again!" << "\n";
                                     Sleep(1000);
                                 }
-                                else if(!is_ID_In_ListAccount(accountReceive))
+                                else if(!accountReceive.is_ID_In_ListAccount())
                                 {
                                     cout << "Username not found! Please try again!" << "\n";
                                     Sleep(1000);
                                 }
                                 else
                                 {
-                                    tranfer(test.id,accountReceive,test.balance,amount);
+                                    tranfer(test,accountReceive,amount);
                                     cout << "Please wait a second..." << "\n";
                                     Sleep(1000);
-                                    cout << "Transfer successful. Enter 'b' to go back: ";
-                                    char temp;
-                                    cout << "Press 'b' to go back";
-                                    do
-                                    {
-                                        temp=_getch();
-                                    }
-                                    while(temp!='b');
+                                    cout << "Transfer successful." << "\n";
+                                    goBack();
                                 }
                             }
                             if(tOpt==2)
@@ -368,7 +358,7 @@ int main()
                                 currentpass=maskingPass();
                                 cout << "\n";
 // Nếu đúng mật khẩu thì bắt đầu đổi mật khẩu
-                                if(currentpass==test.pass)
+                                if(currentpass==testPass)
                                 {
                                     string newPass;
                                     string newPasscf;
@@ -387,7 +377,8 @@ int main()
 //Đổi mật khẩu và thoát tài khoản để đăng nhập lại
                                     else
                                     {
-                                        changePass(test.id,newPass);
+                                        test.changePass(newPass);
+                                        test.setInfo(testID,newPass);
                                         cout << "Please wait a second..." << "\n";
                                         Sleep(1000);
                                         cout << "Your password is changed. Please log in again!";
@@ -418,6 +409,7 @@ int main()
                         {
                             cout << "Please wait a second..." << "\n";
                             Sleep(1000);
+                            system("cls");
                             cout << "Thank you for using my ATM! See you next time!" << "\n";
                             Sleep(2000);
                             system("cls");

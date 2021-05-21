@@ -1,5 +1,4 @@
 #include "../include/showScreen.h"
-#include "../include/mysupplib.h"
 
 
 void setConsoleScreen(int width, int height)
@@ -15,13 +14,13 @@ void setConsoleScreen(int width, int height)
 
 int showDisplayAndChooseOpt(int x, int y)
 {
-    int Color[] = {7,7,7,7}; // white color
+    int Color[] = {WHITE,WHITE,WHITE,WHITE}; // arrDefaultColor
     int counter=1;
     int answer;
     char key;
     ShowCur(false);
+    setColor(WHITE);
     gotoXY(x/2-14,y/2-11);
-    setColor(Color[0]);
     std::cout << "The ATM - BANKING SYSTEM !!!";
     int tempY = y/2-9;
     for (int i = 0; i < 4; i++)
@@ -76,12 +75,12 @@ int showDisplayAndChooseOpt(int x, int y)
         for(int i=1; i<=3; i++)
         {
             if(counter==i)
-                Color[i]=12; // red color
+                Color[i]=RED; // change line opt to red color
             else
-                Color[i]=7;
+                Color[i]=WHITE;
         }
     }
-    setColor(7);
+    setColor(WHITE);
     ShowCur(true);
     return answer;
 }
@@ -90,13 +89,13 @@ int showDisplayAndChooseOpt(int x, int y)
 
 int showMenuAndChooseOpt(int x, int y)
 {
-    int Color[] = {7,7,7,7,7,7,7,7};
+    int Color[] = {WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE};
     int counter=1;
     int answer;
     char key;
     ShowCur(false);
+    setColor(WHITE);
     gotoXY(x/2-15,y/2-12);
-    setColor(Color[0]);
     std::cout << "-----------------MENU-----------------";
     int tempY = y/2-11;
     for (int i = 0; i < 8; i++)
@@ -116,7 +115,7 @@ int showMenuAndChooseOpt(int x, int y)
             {
                 gotoXY(x/2-15, j);
                 std::cout << "|";
-                gotoXY(x/2-15 + 29, j);
+                gotoXY(x/2-15 + 37, j);
                 std::cout << "|";
             }
         }
@@ -162,12 +161,12 @@ int showMenuAndChooseOpt(int x, int y)
         for(int i=1; i<=7; i++)
         {
             if(counter==i)
-                Color[i]=12;
+                Color[i]=RED;
             else
-                Color[i]=7;
+                Color[i]=WHITE;
         }
     }
-    setColor(7);
+    setColor(WHITE);
     ShowCur(true);
     return answer;
 }
@@ -176,13 +175,13 @@ int showMenuAndChooseOpt(int x, int y)
 
 int showOptAndChoose(int x,int y,int caseOpt)
 {
-    int Color[] = {7,7};
+    int Color[] = {WHITE,WHITE,WHITE};
     int counter=1;
     int answer;
     char key;
     ShowCur(false);
+    setColor(WHITE);
     gotoXY(x/2-14,y/2-11);
-    setColor(Color[0]);
     std::cout << "Please choose an option";
     int tempY = y/2-9;
     for (int i = 0; i < 3; i++)
@@ -245,12 +244,12 @@ int showOptAndChoose(int x,int y,int caseOpt)
         for(int i=1; i<=2; i++)
         {
             if(counter==i)
-                Color[i]=12;
+                Color[i]=RED;
             else
-                Color[i]=7;
+                Color[i]=WHITE;
         }
     }
-    setColor(7);
+    setColor(WHITE);
     ShowCur(true);
     return answer;
 }

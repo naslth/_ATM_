@@ -1,57 +1,27 @@
 #include "../include/_ATM_.h"
 
-bool is_ID_Valid(string id)
-{
-    int length=id.size();
-    if(length<8||length>20)
-        return false;
-    for(int i=0; i<length; i++)
-    {
-        if((id[i]>='a'&&id[i]<='z')||(id[i]>='A'&&id[i]<='Z')||(id[i]>='0'&&id[i]<='9')||id[i]=='_'||id[i]=='.'||id[i]=='@')
-            continue;
-        else
-            return false;
-    }
-    return true;
+User::User() {}
+
+User::User(string _id="0",string _pass="0",int _balance=0) {
+    this->id=_id;
+    this->pass=_pass;
+    this->balance=_balance;
+}
+
+User::~User() {}
+
+void User::setInfo(string _id,string _pass) {
+    this->id=_id;
+    this->pass=_pass;
 }
 
 
-bool is_Pass_Valid(string pass)
-{
-    bool check1=false;
-    bool check2=false;
-    int length=pass.size();
-    if(length<8||length>20)
-        return false;
-    for(int i=0; i<length; i++)
-    {
-        if(pass[i]==' ')
-            return false;
-    }
-    for(int i=0; i<length; i++)
-    {
-        if(pass[i]>='A'&&pass[i]<='Z')
-        {
-            check1=true;
-            break;
-        }
-    }
-    for(int i=0; i<length; i++)
-    {
-        if(pass[i]>='0'&&pass[i]<='9')
-        {
-            check2=true;
-            break;
-        }
-    }
-    if(check1==true&&check2==true)
-        return true;
-    else
-        return false;
+void User::setBalance(int _balance) {
+    this->balance=_balance;
 }
 
 
-bool is_Account_In_File(User test)
+bool User::is_Account_In_Datafile()
 {
     ifstream fileIn;
     fileIn.open("data\\listAccount.txt",ios_base::in);
@@ -59,10 +29,11 @@ bool is_Account_In_File(User test)
     {
         while (!fileIn.eof())
         {
-            User temp;
-            fileIn >> temp.id;
-            fileIn >> temp.pass;
-            if(temp.id == test.id && temp.pass == test.pass)
+            string tempID;
+            string tempPass;
+            fileIn >> tempID;
+            fileIn >> tempPass;
+            if(tempID == this->id && tempPass == this->pass)
                 return true;
         }
     }
@@ -73,10 +44,10 @@ bool is_Account_In_File(User test)
 }
 
 
-bool is_Login_Successfully(User test)
+bool User::is_Login_Successfully()
 {
     int check=5;
-    while(!is_Account_In_File(test))
+    while(!is_Account_In_Datafile()||this->id=="")
     {
         check--;
         if (check == 0)
@@ -88,42 +59,43 @@ bool is_Login_Successfully(User test)
             cout << "You have " << check << " attempts left." << "\n";
         else
             cout << "You have " << check << " attempt left." << "\n";
+        string tempID;
+        string tempPass;
         cout << "Enter your ID: ";
-        getline(cin,test.id);
+        getline(cin,this->id);
         cout << "Enter your password: ";
-        test.pass=maskingPass();
+        this->pass=maskingPass();
         cout << "\n";
+
     }
     return true;
 }
 
 
 
-int checkBalance(const string& path)
+int User::checkBalance(const string& path)
 {
-    int balance;
     ifstream fileAccountIn;
     fileAccountIn.open(path,ios_base::in);
     if(fileAccountIn.is_open())
     {
-        fileAccountIn >> balance;
+        fileAccountIn >> this->balance;
     }
     else
         cout << "Can't open file." << "\n";
     fileAccountIn.close();
-    return balance;
+    return this->balance;
 }
 
 
-void checkTransHistory(const string& path)
+void User::checkTransHistory(const string& path)
 {
     ifstream fileAccountIn;
     fileAccountIn.open(path,ios_base::in);
     if(fileAccountIn.is_open())
     {
         int i=0;
-        int balance;
-        fileAccountIn >> balance;
+        fileAccountIn >> this->balance;
         while(!fileAccountIn.eof())
         {
             i++;
@@ -140,11 +112,11 @@ void checkTransHistory(const string& path)
 }
 
 
-void Deposit(const string& path, User test, int moneyDeposit)
+void User::Deposit(const string& path, int moneyDeposit)
 {
-    test.balance=checkBalance(path);
-    test.balance+=moneyDeposit;
-    updateBalanceInFile(path,test.balance);
+    this->balance=checkBalance(path);
+    this->balance+=moneyDeposit;
+    updateBalanceInFile(path,this->balance);
     ofstream fileOut;
     fileOut.open(path,ios_base::app);
     if(fileOut.is_open())
@@ -157,7 +129,7 @@ void Deposit(const string& path, User test, int moneyDeposit)
 }
 
 
-void Withdraw(const string& path, User test, int moneyWithdraw)
+void User::Withdraw(const string& path, int moneyWithdraw)
 {
     const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
     map<int,int> ATM_money;
@@ -165,7 +137,7 @@ void Withdraw(const string& path, User test, int moneyWithdraw)
     vector<int> atmCheckList;
 // Đọc số dư tài khoản, đọc số tờ có trong cây ATM
     ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
-    test.balance=checkBalance(path);
+    this->balance=checkBalance(path);
 // dùng vòng for chạy từ mệnh giá lớn nhất đến mệnh giá nhỏ nhất
     for (int j = 5; j >= 0; j--)
     {
@@ -191,8 +163,8 @@ void Withdraw(const string& path, User test, int moneyWithdraw)
             {
                 ATM_money[moneyArr[k]]-=atmCheckList[k];
             }
-            test.balance -= moneyWithdraw;
-            updateBalanceInFile(path,test.balance);
+            this->balance -= moneyWithdraw;
+            updateBalanceInFile(path,this->balance);
             writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
             ofstream fileOut;
             fileOut.open(path,ios_base::app);
@@ -211,14 +183,8 @@ void Withdraw(const string& path, User test, int moneyWithdraw)
                 if(atmCheckList[k]!=0)
                     cout << "The number of " << moneyArr[k] <<" VND bills is: " << atmCheckList[k] << endl;
             }
-            cout << "Your current balance is: " << test.balance << " VND." << "\n";
-            char temp;
-            cout << "Press 'b' to go back";
-            do
-            {
-                temp=_getch();
-            }
-            while(temp!='b');
+            cout << "Your current balance is: " << this->balance << " VND." << "\n";
+            goBack();
             break; // out khỏi vòng for
         }
     }
@@ -231,7 +197,7 @@ void Withdraw(const string& path, User test, int moneyWithdraw)
 }
 
 
-bool is_ID_In_ListAccount(string ID)
+bool User::is_ID_In_ListAccount()
 {
     ifstream fileIn;
     fileIn.open("data\\listAccount.txt",ios_base::in);
@@ -239,10 +205,11 @@ bool is_ID_In_ListAccount(string ID)
     {
         while (!fileIn.eof())
         {
-            User temp;
-            fileIn >> temp.id;
-            fileIn >> temp.pass;
-            if(temp.id == ID)
+            string tempID;
+            string tempPass;
+            fileIn >> tempID;
+            fileIn >> tempPass;
+            if(tempID == this->id)
                 return true;
         }
     }
@@ -254,20 +221,21 @@ bool is_ID_In_ListAccount(string ID)
 }
 
 
-void tranfer(string accountTransfer,string accountReceive,int accountTransferBalance, int amount)
+void tranfer(User accountTransfer,User accountReceive,int amount)
 {
-    string accountTransferInfo="data\\"+accountTransfer+"Info.txt";
-    string accountReceiveInfo="data\\"+accountReceive+"Info.txt";
-    int accountReceiveBalance=checkBalance(accountReceiveInfo);
-    accountTransferBalance-=amount;
-    accountReceiveBalance+=amount;
-    updateBalanceInFile(accountTransferInfo,accountTransferBalance);
-    updateBalanceInFile(accountReceiveInfo,accountReceiveBalance);
+    string accountTransferInfo="data\\"+accountTransfer.id+"Info.txt";
+    string accountReceiveInfo="data\\"+accountReceive.id+"Info.txt";
+    accountTransfer.balance=accountTransfer.checkBalance(accountTransferInfo);
+    accountReceive.balance=accountReceive.checkBalance(accountReceiveInfo);
+    accountTransfer.balance-=amount;
+    accountReceive.balance+=amount;
+    updateBalanceInFile(accountTransferInfo,accountTransfer.balance);
+    updateBalanceInFile(accountReceiveInfo,accountReceive.balance);
     ofstream fileOut;
     fileOut.open(accountTransferInfo,ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have transferred " << amount << " VND to " << accountReceive << "\n";
+        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << "\n";
     }
     else
         cout << "Can't open file.";
@@ -275,7 +243,7 @@ void tranfer(string accountTransfer,string accountReceive,int accountTransferBal
     fileOut.open(accountReceiveInfo,ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have received " << amount << " VND from " << accountTransfer << "\n";
+        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << "\n";
     }
     else
         cout << "Can't open file.";
@@ -283,7 +251,7 @@ void tranfer(string accountTransfer,string accountReceive,int accountTransferBal
 }
 
 
-void changePass(string usernameNeedToChangePass, string newPass)
+void User::changePass(string newPass)
 {
     ifstream fileListAcccountIn;
     fileListAcccountIn.open("data\\listAccount.txt",ios_base::in);
@@ -295,7 +263,7 @@ void changePass(string usernameNeedToChangePass, string newPass)
         while(!fileListAcccountIn.eof())
         {
             getline(fileListAcccountIn,line);
-            if(line!=usernameNeedToChangePass)
+            if(line!=this->id)
             {
                 tempOut << line << "\n";
             }
@@ -303,7 +271,7 @@ void changePass(string usernameNeedToChangePass, string newPass)
                 getline(fileListAcccountIn,line);
         }
         tempOut.seekp(-1,ios_base::cur);
-        tempOut << usernameNeedToChangePass << "\n";
+        tempOut << this->id << "\n";
         tempOut << newPass << "\n";
     }
     else
