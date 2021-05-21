@@ -176,10 +176,9 @@ void updateBalanceInFile(const std::string& _path,int newBalance) {
     fileAccountIn.open(path,std::ios_base::in);
     if(tempOut.is_open())
     {
-        tempOut << newBalance << "\n";
+        tempOut << newBalance;
         int temp;
         fileAccountIn >> temp;
-        fileAccountIn.seekg(1,std::ios_base::cur);
         while(!fileAccountIn.eof())
         {
             std::string line;

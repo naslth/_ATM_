@@ -59,8 +59,6 @@ bool User::is_Login_Successfully()
             cout << "You have " << check << " attempts left." << "\n";
         else
             cout << "You have " << check << " attempt left." << "\n";
-        string tempID;
-        string tempPass;
         cout << "Enter your ID: ";
         getline(cin,this->id);
         cout << "Enter your password: ";
@@ -116,7 +114,8 @@ void User::Deposit(const string& path, int moneyDeposit)
 {
     this->balance=checkBalance(path);
     this->balance+=moneyDeposit;
-    updateBalanceInFile(path,this->balance);
+    int balance=this->balance;
+    updateBalanceInFile(path,balance);
     ofstream fileOut;
     fileOut.open(path,ios_base::app);
     if(fileOut.is_open())
@@ -164,7 +163,8 @@ void User::Withdraw(const string& path, int moneyWithdraw)
                 ATM_money[moneyArr[k]]-=atmCheckList[k];
             }
             this->balance -= moneyWithdraw;
-            updateBalanceInFile(path,this->balance);
+            int balance=this->balance;
+            updateBalanceInFile(path,balance);
             writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
             ofstream fileOut;
             fileOut.open(path,ios_base::app);
@@ -225,12 +225,12 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
 {
     string accountTransferInfo="data\\"+accountTransfer.id+"Info.txt";
     string accountReceiveInfo="data\\"+accountReceive.id+"Info.txt";
-    accountTransfer.balance=accountTransfer.checkBalance(accountTransferInfo);
-    accountReceive.balance=accountReceive.checkBalance(accountReceiveInfo);
-    accountTransfer.balance-=amount;
-    accountReceive.balance+=amount;
-    updateBalanceInFile(accountTransferInfo,accountTransfer.balance);
-    updateBalanceInFile(accountReceiveInfo,accountReceive.balance);
+    int accountTransferBalance=accountTransfer.checkBalance(accountTransferInfo);
+    int accountReceiveBalance=accountReceive.checkBalance(accountReceiveInfo);
+    accountTransferBalance-=amount;
+    accountReceiveBalance+=amount;
+    updateBalanceInFile(accountTransferInfo,accountTransferBalance);
+    updateBalanceInFile(accountReceiveInfo,accountReceiveBalance);
     ofstream fileOut;
     fileOut.open(accountTransferInfo,ios_base::app);
     if(fileOut.is_open())
@@ -259,20 +259,30 @@ void User::changePass(string newPass)
     tempOut.open("data\\temp.txt",ios_base::out);
     if(fileListAcccountIn.is_open())
     {
-        string line;
+        int i=0;
         while(!fileListAcccountIn.eof())
         {
+            string line;
             getline(fileListAcccountIn,line);
             if(line!=this->id)
             {
                 tempOut << line << "\n";
             }
-            else
+            else{
                 getline(fileListAcccountIn,line);
+                getline(fileListAcccountIn,line);
+            }
+            i++;
         }
-        tempOut.seekp(-1,ios_base::cur);
+        if(i!=2){
         tempOut << this->id << "\n";
         tempOut << newPass << "\n";
+        }
+        else {
+        tempOut.seekp(0,ios_base::beg);
+        tempOut << this->id << "\n";
+        tempOut << newPass << "\n";
+        }
     }
     else
         cout << "Can't open file." << "\n";

@@ -73,7 +73,7 @@ int main()
                     if(fileListAccount.is_open())
                     {
                         fileListAccount << tempID << "\n";
-                        fileListAccount << tempPass << "\n";
+                        fileListAccount << tempPass << "\n" << "\n";
                     }
                     else
                         cout << "Can't open file.";
@@ -147,7 +147,7 @@ int main()
                             int hOpt=showOptAndChoose(WIDTH,HEIGHT,1);
                             if(hOpt==1)
                             {
-                                cout << "\t\t\t\t Transaction history" << "\n\n";
+                                cout << "\t\t\t\t Transaction history";
                                 test.checkTransHistory(accountInfo);
                                 goBack();
                             }
@@ -369,20 +369,30 @@ int main()
                                     newPasscf=maskingPass();
                                     cout << "\n";
 // Kiểm tra mật khẩu mới có hợp lệ không
-                                    if(!is_Pass_Valid(newPass))
+                                    if(!is_Pass_Valid(newPass)){
                                         cout << "Your new password is invalid. Please try again!" << "\n";
-                                    else if(newPass!=newPasscf)
+                                        Sleep(1000);
+                                    }
+                                    else if(newPass!=newPasscf){
                                         cout << "Password confirmation is not match. Please try again!" << "\n";
+                                        Sleep(1000);
+                                    }
+                                    else if(newPass==testPass) {
+                                        cout << "The new password must be different from the current password" << "\n";
+                                        Sleep(1000);
+                                    }
 
 //Đổi mật khẩu và thoát tài khoản để đăng nhập lại
                                     else
                                     {
                                         test.changePass(newPass);
                                         test.setInfo(testID,newPass);
+                                        testPass=newPass;
                                         cout << "Please wait a second..." << "\n";
                                         Sleep(1000);
                                         cout << "Your password is changed. Please log in again!";
                                         Sleep(2000);
+                                        system("cls");
                                         logOut=true;
                                         break;
                                     }
