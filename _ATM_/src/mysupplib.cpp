@@ -49,6 +49,13 @@ void ShowCur(bool is_show)
 }
 
 
+std::string getCurrentTime() {
+    time_t timeNow = time(0);
+    std::string dt = ctime(&timeNow);
+    return dt;
+}
+
+
 
 bool is_ID_Valid(std::string id)
 {
@@ -186,6 +193,7 @@ void updateBalanceInFile(const std::string& _path,int newBalance)
             getline(fileAccountIn,line);
             tempOut << line << "\n";
         }
+        tempOut.seekp(-1,std::ios_base::cur);
     }
     else
         std::cout << "Can't open file.";

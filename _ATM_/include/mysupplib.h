@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <string>
 #include <map>
+#include <ctime>
 
 void setColor(int numcolor);
 
@@ -17,6 +18,8 @@ void setConsoleSize(SHORT width, SHORT height);
 void setConsoleScreenBufferSize(SHORT width, SHORT height);
 
 void ShowCur(bool is_show);
+
+std::string getCurrentTime();
 
 bool is_ID_Valid(std::string id);
 

@@ -126,9 +126,10 @@ void User::Deposit(const string& path, int moneyDeposit)
     updateBalanceInFile(path,balance);
     ofstream fileOut;
     fileOut.open(path,ios_base::app);
+    string currentTime=getCurrentTime();
     if(fileOut.is_open())
     {
-        fileOut << "You have deposited " << moneyDeposit << " VND." << "\n";
+        fileOut << "You have deposited " << moneyDeposit << " VND in " << currentTime;
     }
     else
         cout << "Can't open file.";
@@ -174,24 +175,24 @@ void User::Withdraw(const string& path, int moneyWithdraw)
             int balance=this->balance;
             updateBalanceInFile(path,balance);
             writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
+            string currentTime=getCurrentTime();
             ofstream fileOut;
             fileOut.open(path,ios_base::app);
             if(fileOut.is_open())
             {
-                fileOut << "You have withdrawn " << moneyWithdraw << " VND." << "\n";
+                fileOut << "You have withdrawn " << moneyWithdraw << " VND in " << currentTime;
             }
             else
                 cout << "Can't open file.";
             fileOut.close();
-            cout << "Please wait a second..." << "\n";
-            Sleep(1000);
-            cout << "Successful withdrawal!" << "\n";
+            cout << "Please wait a second..." << "\n\n";
+            Sleep(700);
             for (int k = 5; k >= 0; k--)
             {
                 if(atmCheckList[k]!=0)
                     cout << "The number of " << moneyArr[k] <<" VND bills is: " << atmCheckList[k] << endl;
             }
-            cout << "Your current balance is: " << this->balance << " VND." << "\n\n";
+            cout << "Successful withdrawal!.Your current balance is: " << this->balance << " VND." << "\n\n";
             goBack();
             break; // out khỏi vòng for
         }
@@ -235,11 +236,12 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
     int accountReceiveBalance=accountReceive.checkBalance(accountReceiveInfo)+amount;
     updateBalanceInFile(accountTransferInfo,accountTransferBalance);
     updateBalanceInFile(accountReceiveInfo,accountReceiveBalance);
+    string currentTime=getCurrentTime();
     ofstream fileOut;
     fileOut.open(accountTransferInfo,ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << "\n";
+        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << " in " << currentTime;
     }
     else
         cout << "Can't open file.";
@@ -247,7 +249,7 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
     fileOut.open(accountReceiveInfo,ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << "\n";
+        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << " in " << currentTime;
     }
     else
         cout << "Can't open file.";

@@ -34,10 +34,10 @@ int main()
                      << "   - Must contain at least one uppercase letter and one number."  << "\n"
                      << "REMEMBER that both username and password MUST NOT contain spaces." << "\n\n";
                 setColor(AQUA);
-                cout << "                                            __          \n";
-                cout << "                                           (  `_    //  \n";
-                cout << "                                          __)/(//) (//) \n";
-                cout << "                                             _/     /   \n\n";
+                cout << "\t\t\t\t\t\t  __          \n";
+                cout << "\t\t\t\t\t\t (  `_    //  \n";
+                cout << "\t\t\t\t\t\t__)/(//) (//) \n";
+                cout << "\t\t\t\t\t\t   _/     /   \n\n";
                 cout << "      Enter your ID: ";
                 getline(cin,tempID);
                 cout << "      Enter your password: ";
@@ -230,23 +230,29 @@ int main()
                                 cin >> bills;
                                 cin.ignore();
                                 int moneyDeposit=denominations*bills;
-// Đọc số dư từ file, tăng số tiền và cập nhật lại vào file
-                                test.Deposit(accountInfo,moneyDeposit);
-                                int currentBalance=test.checkBalance(accountInfo);
-                                test.setBalance(currentBalance);
-                                cout << "Please wait a second..." << "\n";
-                                Sleep(1000);
-                                cout << "Deposit successfully. Your current balance is: " << currentBalance << " VND" << "\n\n";
-// Đọc thông tin trong cây ATM, tăng số tờ và cập nhật lại vào file;
-                                ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
-                                fstream fileATM;
-                                for (i = ATM_money.begin(); i != ATM_money.end(); i++)
-                                {
-                                    if((i->first)==denominations)
-                                        (i->second)+=bills;
+                                if(moneyDeposit>1000000000) {
+                                    cout << "The amount deposited must less than 1 billion VND. Try again!" << "\n";
+                                    Sleep(700);
                                 }
-                                writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
-                                goBack();
+// Đọc số dư từ file, tăng số tiền và cập nhật lại vào file
+                                else{
+                                    test.Deposit(accountInfo,moneyDeposit);
+                                    int currentBalance=test.checkBalance(accountInfo);
+                                    test.setBalance(currentBalance);
+                                    cout << "Please wait a second..." << "\n\n";
+                                    Sleep(1000);
+                                    cout << "Deposit successfully. Your current balance is: " << currentBalance << " VND" << "\n\n";
+// Đọc thông tin trong cây ATM, tăng số tờ và cập nhật lại vào file;
+                                    ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
+                                    fstream fileATM;
+                                    for (i = ATM_money.begin(); i != ATM_money.end(); i++)
+                                    {
+                                        if((i->first)==denominations)
+                                            (i->second)+=bills;
+                                    }
+                                    writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
+                                    goBack();
+                                }
                             }
 // Trở về MENU
                             if(dOpt==2)
@@ -271,7 +277,7 @@ int main()
                                 ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
                                 int balance=test.checkBalance(accountInfo);
                                 test.setBalance(balance);
-                                int minwithdraw;
+                                int minwithdraw=10000;
 // Kiểm tra trong cây ATM số tiền nhỏ nhất có thể rút được
                                 for (i = ATM_money.begin(); i != ATM_money.end(); i++)
                                 {
@@ -290,12 +296,16 @@ int main()
 //                  hoặc số tiền rút không phải bội số của 10000 thì quay lại
                                 if(withdraw<minwithdraw)
                                 {
-                                    cout << "The smallest amount that can be withdrawn is: " << minwithdraw << " VND . Please try again!" << "\n";
+                                    cout << "The smallest amount that can be withdrawn is " << minwithdraw << " VND . Please try again!" << "\n";
                                     Sleep(1000);
                                 }
                                 else if(withdraw%10000!=0)
                                 {
                                     cout << "The withdrawal amount must be a multiple of 10000 VND. Please try again!" << "\n";
+                                    Sleep(1000);
+                                }
+                                else if(withdraw>1000000000) {
+                                    cout << "The biggest amount that can be withdrawn is 1 billion VND. Plase try again!" << "\n";
                                     Sleep(1000);
                                 }
                                 else
@@ -347,12 +357,18 @@ int main()
                                     cout << "Username not found! Please try again!" << "\n";
                                     Sleep(1000);
                                 }
+                                else if(accountReceiveID==testID) {
+                                    cout << "You can not transfer to yourself! Please try again!" << "\n";
+                                    Sleep(1000);
+                                }
                                 else
                                 {
                                     tranfer(test,accountReceive,amount);
-                                    cout << "Please wait a second..." << "\n";
-                                    Sleep(1000);
-                                    cout << "Transfer successful." << "\n\n";
+                                    cout << "Please wait a second..." << "\n\n";
+                                    Sleep(700);
+                                    balance=test.checkBalance(accountInfo);
+                                    test.setBalance(balance);
+                                    cout << "Transfer successful. Your current balance is: " << balance <<" VND.\n\n";
                                     goBack();
                                 }
                             }
@@ -463,7 +479,7 @@ int main()
                                  <<"                                                                    __/ |          __/ |                           "
                                  <<"                                                                   |___/          |___/                            ";
                             setColor(WHITE);
-                            Sleep(3000);
+                            Sleep(2500);
                             system("cls");
                             logOut=true;
                             break;
