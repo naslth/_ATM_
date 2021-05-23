@@ -11,10 +11,7 @@ int main()
 {
     setConsoleScreen(WIDTH,HEIGHT);
     bool exit = false;
-    int musicOpt=showMusicAndChooseOpt(WIDTH,HEIGHT);
-    if (musicOpt==4) {
-        PlaySound(NULL,NULL,SND_ASYNC | SND_LOOP);
-    }
+    showMusicAndChooseOpt(WIDTH,HEIGHT); // chọn nhạc để phát khi chạy ctrinh
     while(!exit)
     {
         int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT); //In ra màn hình của cây ATM và chọn option
@@ -83,7 +80,8 @@ int main()
                     if(fileListAccountIn.is_open())
                     {
                         fileListAccountIn.seekg(0, ios::end);
-                        if (fileListAccountIn.tellg() == 0) {
+                        if (fileListAccountIn.tellg() == 0)
+                        {
                             is_List_Account_Clear=true;
                         }
                     }
@@ -94,14 +92,16 @@ int main()
                     fileListAccountOut.open("data\\listAccount.txt",ios_base::app);
                     if(fileListAccountOut.is_open())
                     {
-                        if(is_List_Account_Clear) {
+                        if(is_List_Account_Clear)
+                        {
                             fileListAccountOut << tempID << "\n";
                             fileListAccountOut << tempPass << "\n";
                         }
-                            else{
-                        fileListAccountOut << "\n" << tempID << "\n";
-                        fileListAccountOut << tempPass << "\n";
-                            }
+                        else
+                        {
+                            fileListAccountOut << "\n" << tempID << "\n";
+                            fileListAccountOut << tempPass << "\n";
+                        }
                     }
                     else
                         cout << "Can't open file.";
@@ -234,12 +234,14 @@ int main()
                                 cin >> bills;
                                 cin.ignore();
                                 int moneyDeposit=denominations*bills;
-                                if(moneyDeposit>1000000000) {
+                                if(moneyDeposit>1000000000)
+                                {
                                     cout << "The amount deposited must less than 1 billion VND. Try again!" << "\n";
                                     Sleep(700);
                                 }
 // Đọc số dư từ file, tăng số tiền và cập nhật lại vào file
-                                else{
+                                else
+                                {
                                     test.Deposit(accountInfo,moneyDeposit);
                                     int currentBalance=test.checkBalance(accountInfo);
                                     test.setBalance(currentBalance);
@@ -308,7 +310,8 @@ int main()
                                     cout << "The withdrawal amount must be a multiple of 10000 VND. Please try again!" << "\n";
                                     Sleep(1000);
                                 }
-                                else if(withdraw>1000000000) {
+                                else if(withdraw>1000000000)
+                                {
                                     cout << "The biggest amount that can be withdrawn is 1 billion VND. Plase try again!" << "\n";
                                     Sleep(1000);
                                 }
@@ -361,7 +364,8 @@ int main()
                                     cout << "Username not found! Please try again!" << "\n";
                                     Sleep(1000);
                                 }
-                                else if(accountReceiveID==testID) {
+                                else if(accountReceiveID==testID)
+                                {
                                     cout << "You can not transfer to yourself! Please try again!" << "\n";
                                     Sleep(1000);
                                 }
@@ -490,6 +494,11 @@ int main()
                         }
                         else if(eOpt==2)
                             break;
+                    }
+                    case 8: {
+                        system("cls");
+                        showMusicAndChooseOpt(WIDTH,HEIGHT);
+                        break;
                     }
                     default:
                         break;

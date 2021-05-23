@@ -96,18 +96,18 @@ int showDisplayAndChooseOpt(int x, int y)
 
 int showMenuAndChooseOpt(int x, int y)
 {
-    int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA,AQUA,AQUA,AQUA};
+    int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA,AQUA,AQUA,AQUA,AQUA};
     int counter=1;
     int answer;
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-3,y/2-14);
+    gotoXY(x/2-3,y/2-15);
     std::cout << " /|/| _     ";
-    gotoXY(x/2-3,y/2-13);
+    gotoXY(x/2-3,y/2-14);
     std::cout << "/   |(-`/)(/";
-    int tempY = y/2-11;
-    for (int i = 0; i < 8; i++)
+    int tempY = y/2-12;
+    for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 38; j++)
         {
@@ -115,7 +115,7 @@ int showMenuAndChooseOpt(int x, int y)
             std::cout << "-";
         }
         tempY++;
-        if (i != 7)
+        if (i != 8)
         {
             for(int j=tempY; j<tempY+2; j++)
             {
@@ -129,8 +129,8 @@ int showMenuAndChooseOpt(int x, int y)
     }
     while(true)
     {
-        tempY=y/2-10;
-        for(int i=1; i<=7; i++)
+        tempY=y/2-11;
+        for(int i=1; i<=8; i++)
         {
             gotoXY(x/2-14,tempY);
             setColor(Color[i]);
@@ -145,17 +145,19 @@ int showMenuAndChooseOpt(int x, int y)
             else if(i==5)
                 std::cout << "    5.   Transfer";
             else if(i==6)
-                std::cout << "    6.   Change Password";
+                std::cout << "    6.   Change password";
             else if(i==7)
                 std::cout << "    7.   Log out";
+            else if(i==8)
+                std::cout << "    8.   Open music option";
             tempY+=3;
         }
 
         key=_getch();
 
-        if(key==72&&(counter>=2&&counter<=7))
+        if(key==72&&(counter>=2&&counter<=8))
             counter--;
-        if(key==80&&(counter>=1&&counter<=6))
+        if(key==80&&(counter>=1&&counter<=7))
             counter++;
         if(key=='\r')
         {
@@ -164,7 +166,7 @@ int showMenuAndChooseOpt(int x, int y)
             break;
         }
 
-        for(int i=1; i<=7; i++)
+        for(int i=1; i<=8; i++)
         {
             if(counter==i)
                 Color[i]=RED;
@@ -266,7 +268,7 @@ int showOptAndChoose(int x,int y,int caseOpt)
     return answer;
 }
 
-int showMusicAndChooseOpt(int x, int y)
+void showMusicAndChooseOpt(int x, int y)
 {
     int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA};
     int counter=1;
@@ -327,31 +329,33 @@ int showMusicAndChooseOpt(int x, int y)
             counter++;
         if(key=='\r')
         {
-            answer=counter;
             system("cls");
             break;
         }
 
         for(int i=1; i<=4; i++)
         {
-            if(counter==i){
+            if(counter==i)
+            {
                 Color[i]=RED;
-                if(i==4) {
+                if(i==4)
+                {
                     PlaySound(NULL,NULL,SND_ASYNC | SND_LOOP);
                 }
-                else {
-                std::string tempOpt=std::to_string(i);
-                std::string temp = "music\\soundtrack"+tempOpt+".wav";
-                const char* s=temp.c_str();
-                PlaySound(s,NULL,SND_ASYNC | SND_LOOP);
+                else
+                {
+                    std::string tempOpt=std::to_string(i);
+                    std::string temp = "music\\soundtrack"+tempOpt+".wav";
+                    const char* s=temp.c_str();
+                    PlaySound(s,NULL,SND_ASYNC | SND_LOOP);
                 }
             }
-            else {
+            else
+            {
                 Color[i]=AQUA;
             }
         }
     }
     setColor(WHITE);
     ShowCur(true);
-    return answer;
 }

@@ -21,6 +21,6 @@ int showMenuAndChooseOpt(int x, int y);
 
 int showOptAndChoose(int x,int y,int caseOpt);
 
-int showMusicAndChooseOpt(int x, int y);
+void showMusicAndChooseOpt(int x, int y);
 
 #endif // showScreen_H
