@@ -7,7 +7,10 @@
 #include <conio.h>
 
 #define RED 12
-#define WHITE 7
+#define WHITE 15
+#define AQUA 11
+#define GREEN 10
+#define YELLOW 14
 
 void setConsoleScreen(int width, int height);
 

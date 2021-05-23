@@ -2,24 +2,28 @@
 
 User::User() {}
 
-User::User(string _id="0",string _pass="0",int _balance=0) {
-    this->id=_id;
-    this->pass=_pass;
-    this->balance=_balance;
-}
-
 User::~User() {}
 
-void User::setInfo(string _id,string _pass) {
+void User::setInfo(string _id,string _pass)
+{
     this->id=_id;
     this->pass=_pass;
 }
 
 
-void User::setBalance(int _balance) {
+void User::setBalance(int _balance)
+{
     this->balance=_balance;
 }
 
+string User::getID()
+{
+    return this->id;
+}
+string User::getPass()
+{
+    return this->pass;
+}
 
 bool User::is_Account_In_Datafile()
 {
@@ -29,10 +33,8 @@ bool User::is_Account_In_Datafile()
     {
         while (!fileIn.eof())
         {
-            string tempID;
-            string tempPass;
-            fileIn >> tempID;
-            fileIn >> tempPass;
+            string tempID,tempPass;
+            fileIn >> tempID >> tempPass;
             if(tempID == this->id && tempPass == this->pass)
                 return true;
         }
@@ -44,28 +46,35 @@ bool User::is_Account_In_Datafile()
 }
 
 
-bool User::is_Login_Successfully()
+bool User::is_Login_Successfully(int x, int y)
 {
     int check=5;
-    while(!is_Account_In_Datafile()||this->id=="")
+    do
     {
-        check--;
-        if (check == 0)
-            return false;
-        cout << "Your ID or password is incorrect. Please try again!" << "\n";
-        Sleep(1500);
-        system("cls");
-        if(check!=1)
-            cout << "You have " << check << " attempts left." << "\n";
-        else
-            cout << "You have " << check << " attempt left." << "\n";
+        gotoXY(x/2-7,y/2-6);
+        cout << "Log in process:";
+        gotoXY(x/2-15,y/2-4);
         cout << "Enter your ID: ";
         getline(cin,this->id);
+        gotoXY(x/2-15,y/2-3);
         cout << "Enter your password: ";
         this->pass=maskingPass();
-        cout << "\n";
-
+        cout << "\n\n";
+        if(!is_Account_In_Datafile()||this->id=="")
+        {
+            check--;
+            if (check == 0)
+                return false;
+            cout << "\t\t\tYour ID or password is incorrect. Please try again!" << "\n";
+            if(check!=1)
+                cout << "\t\t\tYou have " << check << " attempts left." << "\n";
+            else
+                cout << "\t\t\tYou have " << check << " attempt left." << "\n";
+            Sleep(1500);
+            system("cls");
+        }
     }
+    while(!is_Account_In_Datafile()||this->id=="");
     return true;
 }
 
@@ -112,8 +121,7 @@ void User::checkTransHistory(const string& path)
 
 void User::Deposit(const string& path, int moneyDeposit)
 {
-    this->balance=checkBalance(path);
-    this->balance+=moneyDeposit;
+    this->balance=checkBalance(path)+moneyDeposit;
     int balance=this->balance;
     updateBalanceInFile(path,balance);
     ofstream fileOut;
@@ -205,10 +213,8 @@ bool User::is_ID_In_ListAccount()
     {
         while (!fileIn.eof())
         {
-            string tempID;
-            string tempPass;
-            fileIn >> tempID;
-            fileIn >> tempPass;
+            string tempID,tempPass;
+            fileIn >> tempID >> tempPass;
             if(tempID == this->id)
                 return true;
         }
@@ -225,10 +231,8 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
 {
     string accountTransferInfo="data\\"+accountTransfer.id+"Info.txt";
     string accountReceiveInfo="data\\"+accountReceive.id+"Info.txt";
-    int accountTransferBalance=accountTransfer.checkBalance(accountTransferInfo);
-    int accountReceiveBalance=accountReceive.checkBalance(accountReceiveInfo);
-    accountTransferBalance-=amount;
-    accountReceiveBalance+=amount;
+    int accountTransferBalance=accountTransfer.checkBalance(accountTransferInfo)-amount;
+    int accountReceiveBalance=accountReceive.checkBalance(accountReceiveInfo)+amount;
     updateBalanceInFile(accountTransferInfo,accountTransferBalance);
     updateBalanceInFile(accountReceiveInfo,accountReceiveBalance);
     ofstream fileOut;
@@ -268,20 +272,23 @@ void User::changePass(string newPass)
             {
                 tempOut << line << "\n";
             }
-            else{
+            else
+            {
                 getline(fileListAcccountIn,line);
                 getline(fileListAcccountIn,line);
             }
             i++;
         }
-        if(i!=2){
-        tempOut << this->id << "\n";
-        tempOut << newPass << "\n";
+        if(i!=2)
+        {
+            tempOut << this->id << "\n";
+            tempOut << newPass << "\n";
         }
-        else {
-        tempOut.seekp(0,ios_base::beg);
-        tempOut << this->id << "\n";
-        tempOut << newPass << "\n";
+        else
+        {
+            tempOut.seekp(0,ios_base::beg);
+            tempOut << this->id << "\n";
+            tempOut << newPass << "\n";
         }
     }
     else

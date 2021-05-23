@@ -21,17 +21,19 @@ public:
 
     User();
 
-    User(string _id,string _pass, int _balance);
-
     ~User();
 
     void setInfo(string _id,string _pass);
 
     void setBalance(int _balance);
 
+    string getID();
+
+    string getPass();
+
     bool is_Account_In_Datafile();
 
-    bool is_Login_Successfully();
+    bool is_Login_Successfully(int x,int y);
 
     int checkBalance(const string& path);
 
@@ -43,7 +45,7 @@ public:
 
     bool is_ID_In_ListAccount();
 
-    friend void tranfer(User accountTranfer,User accountRecieve , int amount);
+    friend void tranfer(User accountTranfer,User accountRecieve, int amount);
 
     void changePass(string newPass);
 };

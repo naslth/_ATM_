@@ -1,7 +1,7 @@
 #include "../include/_ATM_.h"
 #include "../include/showScreen.h"
 
-#define WIDTH 95
+#define WIDTH 115
 #define HEIGHT 35
 const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 
@@ -19,14 +19,12 @@ int main()
         {
             cout << "Please wait a second to go to sign up process..." << "\n";
             Sleep(1000);
-            string accountInfo="";
             User temp;
-            string tempID;
-            string tempPass;
-            string passcf;
+            string tempID,tempPass,passcf,accountInfo;
             while(true)
             {
                 system("cls");
+                setColor(GREEN);
                 cout << "Please register in here. There are some requirement: " << "\n"
                      << "Username: " << "\n"
                      << "   - Must be at least 8 characters but not more than 20." << "\n"
@@ -35,6 +33,7 @@ int main()
                      << "   - Must be at least 8 characters but not more than 20." << "\n"
                      << "   - Must contain at least one uppercase letter and one number."  << "\n"
                      << "REMEMBER that both username and password MUST NOT contain spaces." << "\n\n";
+                cout << "                           Sign up process:" << "\n";
                 cout << "   Enter your ID: ";
                 getline(cin,tempID);
                 cout << "   Enter your password: ";
@@ -73,7 +72,7 @@ int main()
                     if(fileListAccount.is_open())
                     {
                         fileListAccount << tempID << "\n";
-                        fileListAccount << tempPass << "\n" << "\n";
+                        fileListAccount << tempPass << "\n\n";
                     }
                     else
                         cout << "Can't open file.";
@@ -93,8 +92,6 @@ int main()
             cout << "Please wait a second..." << "\n\n";
             Sleep(1000);
             cout << "Sign up successfully." << "\n";
-            cout << "   Your ID is: " << tempID << "\n";
-            cout << "   Your password is: " << tempPass << "\n\n";
             cout << "Please wait a second and log in to your account..." << "\n";
             Sleep(2000);
             system("cls");
@@ -106,17 +103,13 @@ int main()
             Sleep(1000);
             system("cls");
             User test;
-            string testID;
-            string testPass;
-            cout << "Enter your ID: ";
-            getline(cin,testID);
-            cout << "Enter your password: ";
-            testPass=maskingPass();
-            cout << "\n";
-            test.setInfo(testID,testPass);
+            string testID,testPass;
 // Nếu đăng nhập thành công thì mở MENU
-            if(test.is_Login_Successfully())
+            if(test.is_Login_Successfully(WIDTH,HEIGHT))
             {
+                system("cls");
+                string testID=test.getID();
+                string testPass=test.getPass();
                 map<int,int> ATM_money;
                 map<int, int>::iterator i;
 //Khởi tạo map chứa thông tin về số tờ của các mệnh giá trong ATM
@@ -274,7 +267,7 @@ int main()
                                 }
                                 else if(withdraw%10000!=0)
                                 {
-                                    cout << "Not enough change to withdraw! The withdrawal amount must be a multiple of 10000 VND. Please try again!" << "\n";
+                                    cout << "The withdrawal amount must be a multiple of 10000 VND. Please try again!" << "\n";
                                     Sleep(1000);
                                 }
                                 else
@@ -369,15 +362,18 @@ int main()
                                     newPasscf=maskingPass();
                                     cout << "\n";
 // Kiểm tra mật khẩu mới có hợp lệ không
-                                    if(!is_Pass_Valid(newPass)){
+                                    if(!is_Pass_Valid(newPass))
+                                    {
                                         cout << "Your new password is invalid. Please try again!" << "\n";
                                         Sleep(1000);
                                     }
-                                    else if(newPass!=newPasscf){
+                                    else if(newPass!=newPasscf)
+                                    {
                                         cout << "Password confirmation is not match. Please try again!" << "\n";
                                         Sleep(1000);
                                     }
-                                    else if(newPass==testPass) {
+                                    else if(newPass==testPass)
+                                    {
                                         cout << "The new password must be different from the current password" << "\n";
                                         Sleep(1000);
                                     }
@@ -420,8 +416,26 @@ int main()
                             cout << "Please wait a second..." << "\n";
                             Sleep(1000);
                             system("cls");
-                            cout << "Thank you for using my ATM! See you next time!" << "\n";
-                            Sleep(2000);
+                            setColor(YELLOW);
+                            cout << "\n\n\n\n\n\n\n";
+                            cout <<"   _______ _                 _                           __                       _                                "
+                                 <<"  |__   __| |               | |                         / _|                     (_)                               "
+                                 <<"     | |  | |__   __ _ _ __ | | __  _   _  ___  _   _  | |_ ___  _ __   _   _ ___ _ _ __   __ _   ________  _   _  "
+                                 <<"     | |  |  _ ` / _` |  _ `| |/ / | | | |/ _ `| | | | |  _/ _ `|  __| | | | / __| |  _ ` / _` | |  _   _ `| | | | "
+                                 <<"     | |  | | | | (_| | | | |   <  | |_| | (_) | |_| | | || (_) | |    | |_| `__ ` | | | | (_| | | | | | | | |_| | "
+                                 <<"     |_|  |_| |_|`__,_|_| |_|_|`_`  `__, |`___/ `__,_| |_| `___/|_|     `__,_|___/_|_| |_|`__, | |_| |_| |_|`__, | "
+                                 <<"                                     __/ |                                                 __/ |             __/ | "
+                                 <<"                                    |___/                                                 |___/             |___/  "
+                                 <<"           _______ __  __            ____              _    _                _____           _                   _ "
+                                 <<"        /`|__   __|  `/  |          |  _ `            | |  (_)              / ____|         | |                 | |"
+                                 <<"       /  `  | |  | `  / |  ______  | |_) | __ _ _ __ | | ___ _ __   __ _  | (___  _   _ ___| |_ ___ ________   | |"
+                                 <<"      / /` ` | |  | |`/| | |______| |  _ < / _` |  _ `| |/ / |  _ ` / _` |  `___ `| | | / __| __/ _ `  _   _ `  | |"
+                                 <<"     / ___` `| |  | |  | |          | |_) | (_| | | | |   <| | | | | (_| |  ____) | |_| `__ ` ||  __/ | | | | | |_|"
+                                 <<"    /_/    `_`_|  |_|  |_|          |____/ `__,_|_| |_|_|`_`_|_| |_|`__, | |_____/ `__, |___/`__`___|_| |_| |_| (_)"
+                                 <<"                                                                    __/ |          __/ |                           "
+                                 <<"                                                                   |___/          |___/                            ";
+                            setColor(WHITE);
+                            Sleep(3000);
                             system("cls");
                             logOut=true;
                             break;
@@ -437,8 +451,12 @@ int main()
 // Nếu đăng nhập không thành công (quá 5 lần) thì sẽ bị khóa thẻ (thoát khỏi chương trình)
             else
             {
+                system("cls");
+                gotoXY(WIDTH/2-20,HEIGHT/2-3);
                 cout << "You have tried to log in too many times" << "\n";
-                cout << "Card is deactivated, please try after 1 minute.";
+                cout << "\t\t\tCard is deactivated, please try after 1 minute.";
+                Sleep(2000);
+                system("cls");
                 exit=true;
             }
         }

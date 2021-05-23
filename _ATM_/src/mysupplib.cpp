@@ -168,7 +168,8 @@ void writeDataFromMapToFile(std::map<int,int> _map, const std::string& path)
 }
 
 
-void updateBalanceInFile(const std::string& _path,int newBalance) {
+void updateBalanceInFile(const std::string& _path,int newBalance)
+{
     const char* path=_path.c_str();
     std::ofstream tempOut;
     tempOut.open("data\\temp.txt",std::ios_base::out);
@@ -195,7 +196,8 @@ void updateBalanceInFile(const std::string& _path,int newBalance) {
 }
 
 
-void goBack() {
+void goBack()
+{
     char temp;
     std::cout << "Press 'b' to go back";
     do
@@ -204,3 +206,4 @@ void goBack() {
     }
     while(temp!='b');
 }
+
