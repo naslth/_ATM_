@@ -1,5 +1,6 @@
 #include "../include/_ATM_.h"
 #include "../include/showScreen.h"
+#include "mmsystem.h"
 
 #define WIDTH 115
 #define HEIGHT 45
@@ -9,8 +10,11 @@ const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 int main()
 {
     setConsoleScreen(WIDTH,HEIGHT);
-
     bool exit = false;
+    int musicOpt=showMusicAndChooseOpt(WIDTH,HEIGHT);
+    if (musicOpt==4) {
+        PlaySound(NULL,NULL,SND_ASYNC | SND_LOOP);
+    }
     while(!exit)
     {
         int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT); //In ra màn hình của cây ATM và chọn option

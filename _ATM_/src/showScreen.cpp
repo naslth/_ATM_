@@ -266,3 +266,92 @@ int showOptAndChoose(int x,int y,int caseOpt)
     return answer;
 }
 
+int showMusicAndChooseOpt(int x, int y)
+{
+    int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA};
+    int counter=1;
+    int answer;
+    char key;
+    ShowCur(false);
+    setColor(AQUA);
+    gotoXY(x/2-15,y/2-14);
+    std::cout << "           __  _    __  __ ____  __      ";
+    gotoXY(x/2-15,y/2-13);
+    std::cout << " /|/| /  /(  // )  /  )/__) /  //  )/| / ";
+    gotoXY(x/2-15,y/2-12);
+    std::cout << "/   |(__/__)/(__  (__//    /  /(__// |/  ";
+    int tempY = y/2-9;
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 42; j++)
+        {
+            gotoXY(x/2-15 + j, tempY);
+            std::cout << "-";
+        }
+        tempY++;
+        if (i != 4)
+        {
+            for(int j=tempY; j<tempY+3; j++)
+            {
+                gotoXY(x/2-15, j);
+                std::cout << "|";
+                gotoXY(x/2-15 + 41, j);
+                std::cout << "|";
+            }
+        }
+        tempY+=3;
+    }
+    while(true)
+    {
+        tempY=y/2-7;
+        for(int i=1; i<=4; i++)
+        {
+            gotoXY(x/2-14,tempY);
+            setColor(Color[i]);
+            if(i==1)
+                std::cout << " 1. Disfigure - Blank";
+            else if(i==2)
+                std::cout << " 2. Electro-Light - Symbolism";
+            else if(i==3)
+                std::cout << " 3. Different Heaven & EH!DE - My Heart";
+            else if(i==4)
+                std::cout << " 4. Turn music off";
+            tempY+=4;
+        }
+
+        key=_getch();
+
+        if(key==72&&(counter>=2&&counter<=4))
+            counter--;
+        if(key==80&&(counter>=1&&counter<=3))
+            counter++;
+        if(key=='\r')
+        {
+            answer=counter;
+            system("cls");
+            break;
+        }
+
+        for(int i=1; i<=4; i++)
+        {
+            if(counter==i){
+                Color[i]=RED;
+                if(i==4) {
+                    PlaySound(NULL,NULL,SND_ASYNC | SND_LOOP);
+                }
+                else {
+                std::string tempOpt=std::to_string(i);
+                std::string temp = "music\\soundtrack"+tempOpt+".wav";
+                const char* s=temp.c_str();
+                PlaySound(s,NULL,SND_ASYNC | SND_LOOP);
+                }
+            }
+            else {
+                Color[i]=AQUA;
+            }
+        }
+    }
+    setColor(WHITE);
+    ShowCur(true);
+    return answer;
+}

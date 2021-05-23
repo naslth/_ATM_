@@ -5,6 +5,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include "mmsystem.h"
 
 #define RED 12
 #define WHITE 15
@@ -20,5 +21,6 @@ int showMenuAndChooseOpt(int x, int y);
 
 int showOptAndChoose(int x,int y,int caseOpt);
 
+int showMusicAndChooseOpt(int x, int y);
 
 #endif // showScreen_H
