@@ -186,6 +186,7 @@ void updateBalanceInFile(const std::string& _path,int newBalance)
             getline(fileAccountIn,line);
             tempOut << line << "\n";
         }
+        tempOut.seekp(-1,std::ios_base::cur);
     }
     else
         std::cout << "Can't open file.";

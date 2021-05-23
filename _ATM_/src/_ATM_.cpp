@@ -101,17 +101,13 @@ void User::checkTransHistory(const string& path)
     fileAccountIn.open(path,ios_base::in);
     if(fileAccountIn.is_open())
     {
-        int i=0;
         fileAccountIn >> this->balance;
         while(!fileAccountIn.eof())
         {
-            i++;
             string temp;
             getline(fileAccountIn,temp);
             cout << temp << "\n";
         }
-        if(i==0)
-            cout << "Your transaction history is clear. Let make some transaction." << "\n";
     }
     else
         cout << "Can't open file." << "\n";
@@ -257,25 +253,25 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
 
 void User::changePass(string newPass)
 {
-    ifstream fileListAcccountIn;
-    fileListAcccountIn.open("data\\listAccount.txt",ios_base::in);
+    ifstream fileListAccountIn;
+    fileListAccountIn.open("data\\listAccount.txt",ios_base::in);
     ofstream tempOut;
     tempOut.open("data\\temp.txt",ios_base::out);
-    if(fileListAcccountIn.is_open())
+    if(fileListAccountIn.is_open())
     {
         int i=0;
-        while(!fileListAcccountIn.eof())
+        while(!fileListAccountIn.eof())
         {
             string line;
-            getline(fileListAcccountIn,line);
+            getline(fileListAccountIn,line);
             if(line!=this->id)
             {
                 tempOut << line << "\n";
             }
             else
             {
-                getline(fileListAcccountIn,line);
-                getline(fileListAcccountIn,line);
+                getline(fileListAccountIn,line);
+                getline(fileListAccountIn,line);
             }
             i++;
         }
@@ -293,7 +289,7 @@ void User::changePass(string newPass)
     }
     else
         cout << "Can't open file." << "\n";
-    fileListAcccountIn.close();
+    fileListAccountIn.close();
     tempOut.close();
     remove("data\\listAccount.txt");
     rename("data\\temp.txt", "data\\listAccount.txt");

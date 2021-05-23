@@ -40,7 +40,7 @@ int main()
                 tempPass=maskingPass();
                 temp.setInfo(tempID,tempPass);
                 cout << "\n";
-                cout << "   Confirm your pass word: ";
+                cout << "   Confirm your password: ";
                 passcf=maskingPass();
                 cout << "\n";
 // Kiểm tra tài khoản hợp lệ không
@@ -67,16 +67,35 @@ int main()
 // Nếu chưa tồn tại thì ghi vào file danh sách tài khoản
                 else
                 {
-                    fstream fileListAccount;
-                    fileListAccount.open("data\\listAccount.txt",ios_base::app);
-                    if(fileListAccount.is_open())
+                    bool is_List_Account_Clear=false;;
+                    ifstream fileListAccountIn;
+                    fileListAccountIn.open("data\\listAccount.txt",ios_base::in);
+                    if(fileListAccountIn.is_open())
                     {
-                        fileListAccount << tempID << "\n";
-                        fileListAccount << tempPass << "\n\n";
+                        fileListAccountIn.seekg(0, ios::end);
+                        if (fileListAccountIn.tellg() == 0) {
+                            is_List_Account_Clear=true;
+                        }
                     }
                     else
                         cout << "Can't open file.";
-                    fileListAccount.close();
+                    fileListAccountIn.close();
+                    ofstream fileListAccountOut;
+                    fileListAccountOut.open("data\\listAccount.txt",ios_base::app);
+                    if(fileListAccountOut.is_open())
+                    {
+                        if(is_List_Account_Clear) {
+                            fileListAccountOut << tempID << "\n";
+                            fileListAccountOut << tempPass << "\n";
+                        }
+                            else{
+                        fileListAccountOut << "\n" << tempID << "\n";
+                        fileListAccountOut << tempPass << "\n";
+                            }
+                    }
+                    else
+                        cout << "Can't open file.";
+                    fileListAccountOut.close();
                     break;
                 }
             }
@@ -87,7 +106,7 @@ int main()
             if(!fileAccountInfo.is_open())
                 cout << "Can't open file.";
             else
-                fileAccountInfo << "0";
+                fileAccountInfo << "0" << "\n";
             fileAccountInfo.close();
             cout << "Please wait a second..." << "\n\n";
             Sleep(1000);
