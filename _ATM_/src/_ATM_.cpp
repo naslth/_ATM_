@@ -51,8 +51,12 @@ bool User::is_Login_Successfully(int x, int y)
     int check=5;
     do
     {
+        gotoXY(x/2-7,y/2-8);
+        cout << " /    _  / ";
+        gotoXY(x/2-7,y/2-7);
+        cout << "(__()(/ //)";
         gotoXY(x/2-7,y/2-6);
-        cout << "Log in process:";
+        cout << "    _/     ";
         gotoXY(x/2-15,y/2-4);
         cout << "Enter your ID: ";
         getline(cin,this->id);
@@ -106,7 +110,7 @@ void User::checkTransHistory(const string& path)
         {
             string temp;
             getline(fileAccountIn,temp);
-            cout << temp << "\n";
+            cout << "\t" << temp << "\n";
         }
     }
     else

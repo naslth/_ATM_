@@ -2,7 +2,7 @@
 #include "../include/showScreen.h"
 
 #define WIDTH 115
-#define HEIGHT 35
+#define HEIGHT 45
 const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 
 
@@ -33,16 +33,21 @@ int main()
                      << "   - Must be at least 8 characters but not more than 20." << "\n"
                      << "   - Must contain at least one uppercase letter and one number."  << "\n"
                      << "REMEMBER that both username and password MUST NOT contain spaces." << "\n\n";
-                cout << "                           Sign up process:" << "\n";
-                cout << "   Enter your ID: ";
+                setColor(AQUA);
+                cout << "                                            __          \n";
+                cout << "                                           (  `_    //  \n";
+                cout << "                                          __)/(//) (//) \n";
+                cout << "                                             _/     /   \n\n";
+                cout << "      Enter your ID: ";
                 getline(cin,tempID);
-                cout << "   Enter your password: ";
+                cout << "      Enter your password: ";
                 tempPass=maskingPass();
                 temp.setInfo(tempID,tempPass);
                 cout << "\n";
-                cout << "   Confirm your password: ";
+                cout << "      Confirm your password: ";
                 passcf=maskingPass();
-                cout << "\n";
+                cout << "\n\n";
+                setColor(WHITE);
 // Kiểm tra tài khoản hợp lệ không
                 if(!is_ID_Valid(tempID))
                 {
@@ -158,7 +163,9 @@ int main()
                             int hOpt=showOptAndChoose(WIDTH,HEIGHT,1);
                             if(hOpt==1)
                             {
-                                cout << "\t\t\t\t\t Transaction history";
+                                cout << "\t\t\t\t+-+-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t|T|r|a|n|s|a|c|t|i|o|n| |H|i|s|t|o|r|y|\n";
+                                cout << "\t\t\t\t+-+-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+";
                                 test.checkTransHistory(accountInfo);
                                 goBack();
                             }
@@ -179,7 +186,10 @@ int main()
                                 int balance;
                                 balance=test.checkBalance(accountInfo);
                                 test.setBalance(balance);
-                                cout << "\nYour balance is: " << balance << " VND." << "\n\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t\t|B|a|l|a|n|c|e|\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+\n\n";
+                                cout << "\t\tYour balance is: " << balance << " VND." << "\n\n";
                                 goBack();
                             }
                             if(bOpt==2)
@@ -196,7 +206,9 @@ int main()
                             int dOpt=showOptAndChoose(WIDTH,HEIGHT,3);
                             if(dOpt==1)
                             {
-                                cout << "\t\t\t\t\t\t Deposit\n\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t\t|D|e|p|o|s|i|t|\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+\n\n";
                                 int denominations;
                                 int bills;
                                 bool checkDenominations=false;
@@ -252,7 +264,9 @@ int main()
 // Rút tiền
                             if(wOpt==1)
                             {
-                                cout << "\t\t\t\t\t\t Withdraw\n\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t\t|W|i|t|h|d|r|a|w|\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+-+\n\n";
 // Đọc số dư tài khoản, đọc số tờ có trong cây ATM
                                 ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
                                 int balance=test.checkBalance(accountInfo);
@@ -306,7 +320,9 @@ int main()
                             {
                                 User accountReceive;
                                 string accountReceiveID;
-                                cout << "\t\t\t\t\t\t Transfer \n\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t\t|T|r|a|n|s|f|e|r|\n";
+                                cout << "\t\t\t\t\t+-+-+-+-+-+-+-+-+\n\n";
                                 cout << "Enter username (ID) you want to transfer: ";
                                 getline(cin,accountReceiveID);
                                 accountReceive.setInfo(accountReceiveID,"0");
@@ -354,7 +370,9 @@ int main()
                             int pOpt=showOptAndChoose(WIDTH,HEIGHT,6);
                             if(pOpt==1)
                             {
-                                cout << "\t\t\t\t\t\t Change Password\n\n";
+                                cout << "\t\t\t\t+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+\n";
+                                cout << "\t\t\t\t|C|h|a|n|g|e| |P|a|s|s|w|o|r|d|\n";
+                                cout << "\t\t\t\t+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+\n\n";
                                 string currentpass;
 // Nhập mật khẩu hiện tại
                                 cout << "Enter your current password: ";
@@ -427,7 +445,7 @@ int main()
                             Sleep(700);
                             system("cls");
                             setColor(YELLOW);
-                            cout << "\n\n\n\n\n\n\n";
+                            cout << "\n\n\n\n\n\n\n\n\n\n";
                             cout <<"   _______ _                 _                           __                       _                                "
                                  <<"  |__   __| |               | |                         / _|                     (_)                               "
                                  <<"     | |  | |__   __ _ _ __ | | __  _   _  ___  _   _  | |_ ___  _ __   _   _ ___ _ _ __   __ _   ________  _   _  "

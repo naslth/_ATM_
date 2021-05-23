@@ -20,8 +20,14 @@ int showDisplayAndChooseOpt(int x, int y)
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-14,y/2-11);
-    std::cout << "The ATM - BANKING SYSTEM !!!";
+    gotoXY(x/2-30,y/2-15);
+    std::cout << "____        _ ____            __              __            ";
+    gotoXY(x/2-30,y/2-14);
+    std::cout << " /  / _    /_| /  /|/|  __   / _)_   / .  _  (     __/_  _  ";
+    gotoXY(x/2-30,y/2-13);
+    std::cout << "/  /)(-`  /  |/  /   |      /(_)(//)/(//)(/ __)(/_) /(-`//) ";
+    gotoXY(x/2-30,y/2-12);
+    std::cout << "                                       _/     /             ";
     int tempY = y/2-9;
 // Vẽ box
     for (int i = 0; i < 4; i++)
@@ -96,20 +102,19 @@ int showMenuAndChooseOpt(int x, int y)
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-15,y/2-12);
-    std::cout << "-----------------MENU-----------------";
+    gotoXY(x/2-3,y/2-14);
+    std::cout << " /|/| _     ";
+    gotoXY(x/2-3,y/2-13);
+    std::cout << "/   |(-`/)(/";
     int tempY = y/2-11;
     for (int i = 0; i < 8; i++)
     {
-        if(i!=0)
+        for (int j = 0; j < 38; j++)
         {
-            for (int j = 0; j < 38; j++)
-            {
-                gotoXY(x/2-15 + j, tempY);
-                std::cout << "-";
-            }
-            tempY++;
+            gotoXY(x/2-15 + j, tempY);
+            std::cout << "-";
         }
+        tempY++;
         if (i != 7)
         {
             for(int j=tempY; j<tempY+2; j++)
@@ -182,8 +187,14 @@ int showOptAndChoose(int x,int y,int caseOpt)
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-11,y/2-9);
-    std::cout << "Please choose an option";
+    gotoXY(x/2-13,y/2-12);
+    std::cout << "  _                              ";
+    gotoXY(x/2-13,y/2-11);
+    std::cout << " / )/      _ _    _       _/.    ";
+    gotoXY(x/2-13,y/2-10);
+    std::cout << "(__/)()()_) (-`  (//) ()/)//()/) ";
+    gotoXY(x/2-13,y/2-9);
+    std::cout << "                       /         ";
     int tempY = y/2-7;
     for (int i = 0; i < 3; i++)
     {
