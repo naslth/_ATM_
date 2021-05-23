@@ -187,7 +187,7 @@ void User::Withdraw(const string& path, int moneyWithdraw)
                 if(atmCheckList[k]!=0)
                     cout << "The number of " << moneyArr[k] <<" VND bills is: " << atmCheckList[k] << endl;
             }
-            cout << "Your current balance is: " << this->balance << " VND." << "\n";
+            cout << "Your current balance is: " << this->balance << " VND." << "\n\n";
             goBack();
             break; // out khỏi vòng for
         }
@@ -259,7 +259,7 @@ void User::changePass(string newPass)
     tempOut.open("data\\temp.txt",ios_base::out);
     if(fileListAccountIn.is_open())
     {
-        int i=0;
+        int isOnlyOne=0;
         while(!fileListAccountIn.eof())
         {
             string line;
@@ -273,9 +273,10 @@ void User::changePass(string newPass)
                 getline(fileListAccountIn,line);
                 getline(fileListAccountIn,line);
             }
-            i++;
+            isOnlyOne++;
         }
-        if(i!=2)
+// kiểm tra xem listAccount có phải chỉ có 1 tài khoản không
+        if(isOnlyOne!=2)
         {
             tempOut << this->id << "\n";
             tempOut << newPass << "\n";
