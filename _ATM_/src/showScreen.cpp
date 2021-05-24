@@ -14,7 +14,7 @@ void setConsoleScreen(int width, int height)
 
 int showDisplayAndChooseOpt(int x, int y)
 {
-    int Color[] = {AQUA,AQUA,AQUA,AQUA};
+    int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA};
     int counter=1;
     int answer;
     char key;
@@ -32,7 +32,7 @@ int showDisplayAndChooseOpt(int x, int y)
     std::cout << "                                                           |___/        |__/                      ";
     int tempY = y/2-8;
 // Vẽ box
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 30; j++)
         {
@@ -40,7 +40,7 @@ int showDisplayAndChooseOpt(int x, int y)
             std::cout << "-";
         }
         tempY++;
-        if (i != 3)
+        if (i != 4)
         {
             for(int j=tempY; j<tempY+3; j++)
             {
@@ -55,7 +55,7 @@ int showDisplayAndChooseOpt(int x, int y)
     while(true)
     {
         tempY=y/2-6;
-        for(int i=1; i<=3; i++)
+        for(int i=1; i<=4; i++)
         {
             gotoXY(x/2-14,tempY);
             setColor(Color[i]);
@@ -64,15 +64,17 @@ int showDisplayAndChooseOpt(int x, int y)
             else if(i==2)
                 std::cout << " 2.  Log in to account";
             else if(i==3)
-                std::cout << " 3.  Exit";
+                std::cout << " 3.  Open music option";
+            else if(i==4)
+                std::cout << " 4.  Exit";
             tempY+=4;
         }
 
         key=_getch();
 
-        if(key==72&&(counter>=2&&counter<=3))
+        if(key==72&&(counter>=2&&counter<=4))
             counter--;
-        if(key==80&&(counter>=1&&counter<=2))
+        if(key==80&&(counter>=1&&counter<=3))
             counter++;
         if(key=='\r')
         {
@@ -81,7 +83,7 @@ int showDisplayAndChooseOpt(int x, int y)
             break;
         }
 
-        for(int i=1; i<=3; i++)
+        for(int i=1; i<=4; i++)
         {
             if(counter==i)
                 Color[i]=RED; // chuyển dòng đang chọn thành màu đỏ
@@ -151,9 +153,9 @@ int showMenuAndChooseOpt(int x, int y)
             else if(i==6)
                 std::cout << "    6.   Change password";
             else if(i==7)
-                std::cout << "    7.   Log out";
+                std::cout << "    7.   Open music option";
             else if(i==8)
-                std::cout << "    8.   Open music option";
+                std::cout << "    8.   Log out";
             tempY+=3;
         }
 
@@ -239,7 +241,7 @@ int showOptAndChoose(int x,int y,int caseOpt)
             std::cout << " 1.   Tranfer";
         else if(caseOpt==6)
             std::cout << " 1.   Change password";
-        else if(caseOpt==7)
+        else if(caseOpt==8)
             std::cout << " 1.   Log out";
 
         gotoXY(x/2-14,y/2-1);

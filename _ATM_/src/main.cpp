@@ -11,8 +11,8 @@ const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
 int main()
 {
     setConsoleScreen(WIDTH,HEIGHT);
+    PlaySound(TEXT("music\\soundtrack1.wav"),NULL,SND_ASYNC | SND_LOOP);
     bool exit = false;
-    showMusicAndChooseOpt(WIDTH,HEIGHT); // chọn nhạc để phát khi chạy ctrinh
     while(!exit)
     {
         int answer=showDisplayAndChooseOpt(WIDTH,HEIGHT); //In ra màn hình của cây ATM và chọn option
@@ -118,7 +118,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int hOpt=showOptAndChoose(WIDTH,HEIGHT,1);
+                            int hOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                             if(hOpt==1)
                             {
                                 cout << "\t\t\t\t+-+-+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+\n";
@@ -138,7 +138,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int bOpt=showOptAndChoose(WIDTH,HEIGHT,2);
+                            int bOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                             if(bOpt==1)
                             {
                                 int balance;
@@ -161,7 +161,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int dOpt=showOptAndChoose(WIDTH,HEIGHT,3);
+                            int dOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                             if(dOpt==1)
                             {
                                 cout << "\t\t\t\t\t+-+-+-+-+-+-+-+\n";
@@ -226,7 +226,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int wOpt=showOptAndChoose(WIDTH,HEIGHT,4);
+                            int wOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
 // Rút tiền
                             if(wOpt==1)
                             {
@@ -286,7 +286,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int tOpt=showOptAndChoose(WIDTH,HEIGHT,5);
+                            int tOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                             if(tOpt==1)
                             {
                                 User accountReceive;
@@ -345,7 +345,7 @@ int main()
                         while(true)
                         {
                             system("cls");
-                            int pOpt=showOptAndChoose(WIDTH,HEIGHT,6);
+                            int pOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                             if(pOpt==1)
                             {
                                 cout << "\t\t\t\t+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+\n";
@@ -412,11 +412,16 @@ int main()
                         }
                         break;
                     }
+                    case 7: {
+                        system("cls");
+                        showMusicAndChooseOpt(WIDTH,HEIGHT);
+                        break;
+                    }
 // Thoát tài khoản
-                    case 7:
+                    case 8:
                     {
                         system("cls");
-                        int eOpt=showOptAndChoose(WIDTH,HEIGHT,7);
+                        int eOpt=showOptAndChoose(WIDTH,HEIGHT,menuOpt);
                         if(eOpt==1)
                         {
                             cout << "Please wait a second..." << "\n";
@@ -449,11 +454,6 @@ int main()
                         else if(eOpt==2)
                             break;
                     }
-                    case 8: {
-                        system("cls");
-                        showMusicAndChooseOpt(WIDTH,HEIGHT);
-                        break;
-                    }
                     default:
                         break;
                     }
@@ -473,6 +473,11 @@ int main()
         }
 // Thoát khỏi chương trình
         else if(answer==3)
+        {
+            system("cls");
+            showMusicAndChooseOpt(WIDTH,HEIGHT);
+        }
+        else if(answer==4)
         {
             exit=true;
         }

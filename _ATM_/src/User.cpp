@@ -105,13 +105,16 @@ void User::checkTransHistory(const std::string& path)
     fileAccountIn.open(path,std::ios_base::in);
     if(fileAccountIn.is_open())
     {
+        int i=0;
         fileAccountIn >> this->balance;
         while(!fileAccountIn.eof())
         {
             std::string temp;
             getline(fileAccountIn,temp);
             std::cout << "\t" << temp << "\n";
+            i++;
         }
+        if(i==2) std::cout << "Transaction history is clear. Let make some transaction. \n\n";
     }
     else
         std::cout << "Can't open file." << "\n";
