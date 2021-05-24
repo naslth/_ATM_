@@ -20,15 +20,17 @@ int showDisplayAndChooseOpt(int x, int y)
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-30,y/2-15);
-    std::cout << "____        _ ____            __              __            ";
-    gotoXY(x/2-30,y/2-14);
-    std::cout << " /  / _    /_| /  /|/|  __   / _)_   / .  _  (     __/_  _  ";
-    gotoXY(x/2-30,y/2-13);
-    std::cout << "/  /)(-`  /  |/  /   |      /(_)(//)/(//)(/ __)(/_) /(-`//) ";
-    gotoXY(x/2-30,y/2-12);
-    std::cout << "                                       _/     /             ";
-    int tempY = y/2-9;
+    gotoXY(x/2-45,y/2-15);
+    std::cout << "    _  _____  __  __         ___              _    _               ___            _               ";
+    gotoXY(x/2-45,y/2-14);
+    std::cout << "   /_\\|_   _||  \\/  |  ___  | _ ) __ _  _ _  | |__(_) _ _   __ _  / __| _  _  ___| |_  ___  _ __  ";
+    gotoXY(x/2-45,y/2-13);
+    std::cout << "  / _ \\ | |  | |\\/| | |___| | _ \\/ _` || ` \\ | / /| || ` \\ / _` | \\__ \\| || |(_-<|  _|/ -_)| `  \\ ";
+    gotoXY(x/2-45,y/2-12);
+    std::cout << " /_/ \\_\\|_|  |_|  |_|       |___/\\__,_||_||_||_\\_\\|_||_||_|\\__, | |___/ \\_, |/__/ \\__|\\___||_|_|_|";
+    gotoXY(x/2-45,y/2-11);
+    std::cout << "                                                           |___/        |__/                      ";
+    int tempY = y/2-8;
 // Vẽ box
     for (int i = 0; i < 4; i++)
     {
@@ -52,7 +54,7 @@ int showDisplayAndChooseOpt(int x, int y)
     }
     while(true)
     {
-        tempY=y/2-7;
+        tempY=y/2-6;
         for(int i=1; i<=3; i++)
         {
             gotoXY(x/2-14,tempY);
@@ -102,10 +104,12 @@ int showMenuAndChooseOpt(int x, int y)
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-3,y/2-15);
-    std::cout << " /|/| _     ";
-    gotoXY(x/2-3,y/2-14);
-    std::cout << "/   |(-`/)(/";
+    gotoXY(x/2-5,y/2-16);
+    std::cout << "     __         ";
+    gotoXY(x/2-5,y/2-15);
+    std::cout << "|\\/||_ |\\ ||  | ";
+    gotoXY(x/2-5,y/2-14);
+    std::cout << "|  ||__| \\|\\__/ ";
     int tempY = y/2-12;
     for (int i = 0; i < 9; i++)
     {
@@ -190,13 +194,13 @@ int showOptAndChoose(int x,int y,int caseOpt)
     ShowCur(false);
     setColor(AQUA);
     gotoXY(x/2-13,y/2-12);
-    std::cout << "  _                              ";
+    std::cout << " __                                       ";
     gotoXY(x/2-13,y/2-11);
-    std::cout << " / )/      _ _    _       _/.    ";
+    std::cout << "/  |_  _  _  _ _    _  _    _  _ |_. _  _  ";
     gotoXY(x/2-13,y/2-10);
-    std::cout << "(__/)()()_) (-`  (//) ()/)//()/) ";
+    std::cout << "\\__| )(_)(_)_)(-`  (_|| )  (_)|_)|_|(_)| ) ";
     gotoXY(x/2-13,y/2-9);
-    std::cout << "                       /         ";
+    std::cout << "                              |            ";
     int tempY = y/2-7;
     for (int i = 0; i < 3; i++)
     {
@@ -272,16 +276,15 @@ void showMusicAndChooseOpt(int x, int y)
 {
     int Color[] = {AQUA,AQUA,AQUA,AQUA,AQUA};
     int counter=1;
-    int answer;
     char key;
     ShowCur(false);
     setColor(AQUA);
-    gotoXY(x/2-15,y/2-14);
-    std::cout << "           __  _    __  __ ____  __      ";
-    gotoXY(x/2-15,y/2-13);
-    std::cout << " /|/| /  /(  // )  /  )/__) /  //  )/| / ";
-    gotoXY(x/2-15,y/2-12);
-    std::cout << "/   |(__/__)/(__  (__//    /  /(__// |/  ";
+    gotoXY(x/2-10,y/2-14);
+    std::cout << "|\\/|    _. _   _  _ |_. _  _  ";
+    gotoXY(x/2-10,y/2-13);
+    std::cout << "|  ||_|_)|(_  (_)|_)|_|(_)| ) ";
+    gotoXY(x/2-10,y/2-12);
+    std::cout << "                 |            ";
     int tempY = y/2-9;
     for (int i = 0; i < 5; i++)
     {
