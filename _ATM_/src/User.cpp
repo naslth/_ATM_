@@ -132,7 +132,7 @@ void User::Deposit(const std::string& path, int moneyDeposit)
     std::string currentTime=getCurrentTime();
     if(fileOut.is_open())
     {
-        fileOut << "You have deposited " << moneyDeposit << " VND in " << currentTime;
+        fileOut << "You have deposited " << moneyDeposit << " VND at " << currentTime;
     }
     else
         std::cout << "Can't open file.";
@@ -183,7 +183,7 @@ void User::Withdraw(const std::string& path, int moneyWithdraw)
             fileOut.open(path,std::ios_base::app);
             if(fileOut.is_open())
             {
-                fileOut << "You have withdrawn " << moneyWithdraw << " VND in " << currentTime;
+                fileOut << "You have withdrawn " << moneyWithdraw << " VND at " << currentTime;
             }
             else
                 std::cout << "Can't open file.";
@@ -244,7 +244,7 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
     fileOut.open(accountTransferInfo,std::ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << " in " << currentTime;
+        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << " at " << currentTime;
     }
     else
        std:: cout << "Can't open file.";
@@ -252,7 +252,7 @@ void tranfer(User accountTransfer,User accountReceive,int amount)
     fileOut.open(accountReceiveInfo,std::ios_base::app);
     if(fileOut.is_open())
     {
-        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << " in " << currentTime;
+        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << " at " << currentTime;
     }
     else
         std::cout << "Can't open file.";

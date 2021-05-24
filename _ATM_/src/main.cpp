@@ -37,7 +37,7 @@ int main()
                      << "REMEMBER that both username and password MUST NOT contain spaces." << "\n\n";
                 setColor(AQUA);
                 cout << "\t\t\t\t\t\t  __          \n";
-                cout << "\t\t\t\t\t\t (  `_    //  \n";
+                cout << "\t\t\t\t\t\t (  ._    //  \n";
                 cout << "\t\t\t\t\t\t__)/(//) (//) \n";
                 cout << "\t\t\t\t\t\t   _/     /   \n\n";
                 cout << "      Enter your ID: ";
