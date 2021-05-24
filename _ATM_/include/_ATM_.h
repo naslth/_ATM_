@@ -2,54 +2,22 @@
 #define _ATM_H_
 
 #include "mysupplib.h"
-#include <vector>
-#include <algorithm>
+#include "User.h"
 
-using namespace std;
+void signUp(std::string tempID, std::string tempPass);
 
-class User
-{
-private:
+bool is_ID_Valid(std::string id);
 
-    string id;
+bool is_Pass_Valid(std::string pass);
 
-    string pass;
+std::string maskingPass();
 
-    int balance;
+void writeDataFromMapToFile(std::map<int,int> _map, const std::string& path);
 
-public:
+std::map<int,int> readDataFromFileToMap(const std::string& path);
 
-    User();
+void updateBalanceInFile(const std::string& path,int newBalance);
 
-    ~User();
-
-    void setInfo(string _id,string _pass);
-
-    void setBalance(int _balance);
-
-    string getID();
-
-    string getPass();
-
-    bool is_Account_In_Datafile();
-
-    bool is_Login_Successfully(int x,int y);
-
-    int checkBalance(const string& path);
-
-    void checkTransHistory(const string& path);
-
-    void Deposit(const string& path, int moneyDeposit);
-
-    void Withdraw(const string& path, int withdraw);
-
-    bool is_ID_In_ListAccount();
-
-    friend void tranfer(User accountTranfer,User accountRecieve, int amount);
-
-    void changePass(string newPass);
-};
-
-
+void goBack();
 
 #endif // _ATM_H_

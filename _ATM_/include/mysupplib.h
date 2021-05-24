@@ -21,19 +21,5 @@ void ShowCur(bool is_show);
 
 std::string getCurrentTime();
 
-bool is_ID_Valid(std::string id);
-
-bool is_Pass_Valid(std::string pass);
-
-std::string maskingPass();
-
-void writeDataFromMapToFile(std::map<int,int> _map, const std::string& path);
-
-std::map<int,int> readDataFromFileToMap(const std::string& path);
-
-void updateBalanceInFile(const std::string& path,int newBalance);
-
-void goBack();
-
 
 #endif // mysupplib_H_

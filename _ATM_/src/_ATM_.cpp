@@ -1,304 +1,213 @@
 #include "../include/_ATM_.h"
 
-User::User() {}
 
-User::~User() {}
-
-void User::setInfo(string _id,string _pass)
+void signUp(std::string tempID, std::string tempPass)
 {
-    this->id=_id;
-    this->pass=_pass;
-}
-
-
-void User::setBalance(int _balance)
-{
-    this->balance=_balance;
-}
-
-string User::getID()
-{
-    return this->id;
-}
-string User::getPass()
-{
-    return this->pass;
-}
-
-bool User::is_Account_In_Datafile()
-{
-    ifstream fileIn;
-    fileIn.open("data\\listAccount.txt",ios_base::in);
-    if(fileIn.is_open())
+    bool is_List_Account_Clear=false;;
+    std::ifstream fileListAccountIn;
+// Kiểm tra listAccount có rỗng không
+    fileListAccountIn.open("data\\listAccount.txt",std::ios_base::in);
+    if(fileListAccountIn.is_open())
     {
-        while (!fileIn.eof())
+        fileListAccountIn.seekg(0, std::ios_base::end);
+        if (fileListAccountIn.tellg() == 0)
         {
-            string tempID,tempPass;
-            fileIn >> tempID >> tempPass;
-            if(tempID == this->id && tempPass == this->pass)
-                return true;
+            is_List_Account_Clear=true;
         }
     }
     else
-        cout << "Can't open file." << "\n";
-    fileIn.close();
-    return false;
+        std::cout << "Can't open file.";
+    fileListAccountIn.close();
+    std::ofstream fileListAccountOut;
+    fileListAccountOut.open("data\\listAccount.txt",std::ios_base::app);
+    if(fileListAccountOut.is_open())
+    {
+        if(is_List_Account_Clear)
+        {
+            fileListAccountOut << tempID << "\n";
+            fileListAccountOut << tempPass << "\n";
+        }
+        else
+        {
+            fileListAccountOut << "\n" << tempID << "\n";
+            fileListAccountOut << tempPass << "\n";
+        }
+    }
+    else
+        std::cout << "Can't open file.";
+    fileListAccountOut.close();
+// Tạo file chứa thông tin của tài khoản vừa đăng ký và ghi vào số dư hiện tại (0 VND)
+    std::string accountInfo="data\\" + tempID + "Info.txt";
+    std::ofstream fileAccountInfo;
+    fileAccountInfo.open(accountInfo,std::ios_base::out);
+    if(!fileAccountInfo.is_open())
+        std::cout << "Can't open file.";
+    else
+        fileAccountInfo << "0" << "\n";
+    fileAccountInfo.close();
+    std::cout << "Please wait a second..." << "\n\n";
+    Sleep(700);
+    std::cout << "Sign up successfully." << "\n";
+    std::cout << "Please wait a second and log in to your account..." << "\n";
+    Sleep(1500);
+    system("cls");
 }
 
 
-bool User::is_Login_Successfully(int x, int y)
+bool is_ID_Valid(std::string id)
 {
-    int check=5;
-    do
+    int length=id.size();
+    if(length<8||length>20)
+        return false;
+    for(int i=0; i<length; i++)
     {
-        gotoXY(x/2-7,y/2-8);
-        cout << " /    _  / ";
-        gotoXY(x/2-7,y/2-7);
-        cout << "(__()(/ //)";
-        gotoXY(x/2-7,y/2-6);
-        cout << "    _/     ";
-        gotoXY(x/2-15,y/2-4);
-        cout << "Enter your ID: ";
-        getline(cin,this->id);
-        gotoXY(x/2-15,y/2-3);
-        cout << "Enter your password: ";
-        this->pass=maskingPass();
-        cout << "\n\n";
-        if(!is_Account_In_Datafile()||this->id=="")
-        {
-            check--;
-            if (check == 0)
-                return false;
-            cout << "\t\t\tYour ID or password is incorrect. Please try again!" << "\n";
-            if(check!=1)
-                cout << "\t\t\tYou have " << check << " attempts left." << "\n";
-            else
-                cout << "\t\t\tYou have " << check << " attempt left." << "\n";
-            Sleep(1500);
-            system("cls");
-        }
+        if((id[i]>='a'&&id[i]<='z')||(id[i]>='A'&&id[i]<='Z')||(id[i]>='0'&&id[i]<='9')||id[i]=='_'||id[i]=='.'||id[i]=='@')
+            continue;
+        else
+            return false;
     }
-    while(!is_Account_In_Datafile()||this->id=="");
     return true;
 }
 
 
-
-int User::checkBalance(const string& path)
+bool is_Pass_Valid(std::string pass)
 {
-    ifstream fileAccountIn;
-    fileAccountIn.open(path,ios_base::in);
-    if(fileAccountIn.is_open())
+    bool check1=false;
+    bool check2=false;
+    int length=pass.size();
+    if(length<8||length>20)
+        return false;
+    for(int i=0; i<length; i++)
     {
-        fileAccountIn >> this->balance;
+        if(pass[i]==' ')
+            return false;
     }
-    else
-        cout << "Can't open file." << "\n";
-    fileAccountIn.close();
-    return this->balance;
-}
-
-
-void User::checkTransHistory(const string& path)
-{
-    ifstream fileAccountIn;
-    fileAccountIn.open(path,ios_base::in);
-    if(fileAccountIn.is_open())
+    for(int i=0; i<length; i++)
     {
-        fileAccountIn >> this->balance;
-        while(!fileAccountIn.eof())
+        if(pass[i]>='A'&&pass[i]<='Z')
         {
-            string temp;
-            getline(fileAccountIn,temp);
-            cout << "\t" << temp << "\n";
+            check1=true;
+            break;
         }
     }
-    else
-        cout << "Can't open file." << "\n";
-    fileAccountIn.close();
-}
-
-
-void User::Deposit(const string& path, int moneyDeposit)
-{
-    this->balance=checkBalance(path)+moneyDeposit;
-    int balance=this->balance;
-    updateBalanceInFile(path,balance);
-    ofstream fileOut;
-    fileOut.open(path,ios_base::app);
-    string currentTime=getCurrentTime();
-    if(fileOut.is_open())
+    for(int i=0; i<length; i++)
     {
-        fileOut << "You have deposited " << moneyDeposit << " VND in " << currentTime;
-    }
-    else
-        cout << "Can't open file.";
-    fileOut.close();
-}
-
-
-void User::Withdraw(const string& path, int moneyWithdraw)
-{
-    const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
-    map<int,int> ATM_money;
-    int tempWithdraw=moneyWithdraw;
-    vector<int> atmCheckList;
-// Đọc số dư tài khoản, đọc số tờ có trong cây ATM
-    ATM_money=readDataFromFileToMap("data\\ATMinfo.txt");
-    this->balance=checkBalance(path);
-// dùng vòng for chạy từ mệnh giá lớn nhất đến mệnh giá nhỏ nhất
-    for (int j = 5; j >= 0; j--)
-    {
-// tìm min của (số tiền rút/mệnh giá, số tờ hiên có trong cây ATM)
-        int atmCheck = min((tempWithdraw / moneyArr[j]), ATM_money[moneyArr[j]]);
-// số tiền rút -= min*mệnh giá
-        tempWithdraw -= atmCheck * moneyArr[j];
-// thêm số tờ rút ra vào vector để tí in ra
-        atmCheckList.push_back(atmCheck);
-// nếu số tiền cần rút = 0 => đã rút thành công
-        if (tempWithdraw == 0)
+        if(pass[i]>='0'&&pass[i]<='9')
         {
-            if(atmCheckList.size()<6) // nếu rút không tới mệnh giá cuối cùng (10000 VND) thì thêm vào cho đủ 6 mệnh giá tiền
-            {
-                for(int j=atmCheckList.size(); j<6; j++)
-                {
-                    atmCheckList.push_back(0);
-                }
-            }
-            reverse(atmCheckList.begin(),atmCheckList.end()); // đảo ngược về đúng thứ tự
-// trừ số tiền rút khỏi cây ATM và tài khoản, cập nhật dữ liệu mới vào trong file
-            for(int k=5; k>=0; k--)
-            {
-                ATM_money[moneyArr[k]]-=atmCheckList[k];
-            }
-            this->balance -= moneyWithdraw;
-            int balance=this->balance;
-            updateBalanceInFile(path,balance);
-            writeDataFromMapToFile(ATM_money,"data\\ATMinfo.txt");
-            string currentTime=getCurrentTime();
-            ofstream fileOut;
-            fileOut.open(path,ios_base::app);
-            if(fileOut.is_open())
-            {
-                fileOut << "You have withdrawn " << moneyWithdraw << " VND in " << currentTime;
-            }
-            else
-                cout << "Can't open file.";
-            fileOut.close();
-            cout << "Please wait a second..." << "\n\n";
-            Sleep(700);
-            for (int k = 5; k >= 0; k--)
-            {
-                if(atmCheckList[k]!=0)
-                    cout << "The number of " << moneyArr[k] <<" VND bills is: " << atmCheckList[k] << endl;
-            }
-            cout << "Successful withdrawal!.Your current balance is: " << this->balance << " VND." << "\n\n";
-            goBack();
-            break; // out khỏi vòng for
+            check2=true;
+            break;
         }
     }
-// nếu só tiền cần rút sau khi chạy vòng for !=0 => không đủ tiền lẻ trong ATM để rút
-    if(tempWithdraw!=0)
-    {
-        cout << "Not enough change to withdraw! Please try again!" << "\n";
-        Sleep(1000);
-    }
+    if(check1==true&&check2==true)
+        return true;
+    else
+        return false;
 }
 
 
-bool User::is_ID_In_ListAccount()
+std::string maskingPass()
 {
-    ifstream fileIn;
-    fileIn.open("data\\listAccount.txt",ios_base::in);
+    char temp;
+    std::string maskedPass="";
+    while((temp=_getch()) != '\r')
+    {
+        if(temp!='\b')
+        {
+            std::cout << "*";
+            maskedPass+=temp;
+        }
+        else if(maskedPass.size()!=0)
+        {
+            std::cout << "\b" << " " << "\b";
+            maskedPass.pop_back();
+        }
+    }
+    return maskedPass;
+}
+
+
+
+std::map<int,int> readDataFromFileToMap(const std::string& path)
+{
+    std::map<int,int> _map;
+    _map[10000]=0;
+    _map[20000]=0;
+    _map[50000]=0;
+    _map[100000]=0;
+    _map[200000]=0;
+    _map[500000]=0;
+    std::map<int, int>::iterator i;
+    std::ifstream fileIn;
+    fileIn.open(path,std::ios_base::in);
     if(fileIn.is_open())
     {
-        while (!fileIn.eof())
+        for(i=_map.begin(); i!=_map.end(); i++)
         {
-            string tempID,tempPass;
-            fileIn >> tempID >> tempPass;
-            if(tempID == this->id)
-                return true;
+            fileIn >> (i->second);
         }
     }
     else
-        cout << "Can't open file." << "\n";
+        std::cout << "Can't open file." << "\n";
     fileIn.close();
-    return false;
-
+    return _map;
 }
 
 
-void tranfer(User accountTransfer,User accountReceive,int amount)
+
+void writeDataFromMapToFile(std::map<int,int> _map, const std::string& path)
 {
-    string accountTransferInfo="data\\"+accountTransfer.id+"Info.txt";
-    string accountReceiveInfo="data\\"+accountReceive.id+"Info.txt";
-    int accountTransferBalance=accountTransfer.checkBalance(accountTransferInfo)-amount;
-    int accountReceiveBalance=accountReceive.checkBalance(accountReceiveInfo)+amount;
-    updateBalanceInFile(accountTransferInfo,accountTransferBalance);
-    updateBalanceInFile(accountReceiveInfo,accountReceiveBalance);
-    string currentTime=getCurrentTime();
-    ofstream fileOut;
-    fileOut.open(accountTransferInfo,ios_base::app);
+    std::map<int, int>::iterator i;
+    std::ofstream fileOut;
+    fileOut.open(path,std::ios_base::out);
     if(fileOut.is_open())
     {
-        fileOut << "You have transferred " << amount << " VND to " << accountReceive.id << " in " << currentTime;
+        for (i = _map.begin(); i != _map.end(); i++)
+        {
+            fileOut << (i->second) << "\n";
+        }
     }
     else
-        cout << "Can't open file.";
-    fileOut.close();
-    fileOut.open(accountReceiveInfo,ios_base::app);
-    if(fileOut.is_open())
-    {
-        fileOut << "You have received " << amount << " VND from " << accountTransfer.id << " in " << currentTime;
-    }
-    else
-        cout << "Can't open file.";
+        std::cout << "Can't open file." << "\n";
     fileOut.close();
 }
 
 
-void User::changePass(string newPass)
+void updateBalanceInFile(const std::string& _path,int newBalance)
 {
-    ifstream fileListAccountIn;
-    fileListAccountIn.open("data\\listAccount.txt",ios_base::in);
-    ofstream tempOut;
-    tempOut.open("data\\temp.txt",ios_base::out);
-    if(fileListAccountIn.is_open())
+    const char* path=_path.c_str();
+    std::ofstream tempOut;
+    tempOut.open("data\\temp.txt",std::ios_base::out);
+    std::ifstream fileAccountIn;
+    fileAccountIn.open(path,std::ios_base::in);
+    if(tempOut.is_open())
     {
-        int isOnlyOne=0;
-        while(!fileListAccountIn.eof())
+        tempOut << newBalance;
+        int temp;
+        fileAccountIn >> temp;
+        while(!fileAccountIn.eof())
         {
-            string line;
-            getline(fileListAccountIn,line);
-            if(line!=this->id)
-            {
-                tempOut << line << "\n";
-            }
-            else
-            {
-                getline(fileListAccountIn,line);
-                getline(fileListAccountIn,line);
-            }
-            isOnlyOne++;
+            std::string line;
+            getline(fileAccountIn,line);
+            tempOut << line << "\n";
         }
-// kiểm tra xem listAccount có phải chỉ có 1 tài khoản không
-        if(isOnlyOne!=2)
-        {
-            tempOut << this->id << "\n";
-            tempOut << newPass << "\n";
-        }
-        else
-        {
-            tempOut.seekp(0,ios_base::beg);
-            tempOut << this->id << "\n";
-            tempOut << newPass << "\n";
-        }
+        tempOut.seekp(-1,std::ios_base::cur);
     }
     else
-        cout << "Can't open file." << "\n";
-    fileListAccountIn.close();
+        std::cout << "Can't open file.";
+    fileAccountIn.close();
     tempOut.close();
-    remove("data\\listAccount.txt");
-    rename("data\\temp.txt", "data\\listAccount.txt");
+    std::remove(path);
+    rename("data\\temp.txt",path);
 }
 
+
+void goBack()
+{
+    char temp;
+    std::cout << "Press 'b' to go back";
+    do
+    {
+        temp=_getch();
+    }
+    while(temp!='b');
+}

@@ -38,9 +38,11 @@
 		<Linker>
 			<Add library="winmm" />
 		</Linker>
+		<Unit filename="include/User.h" />
 		<Unit filename="include/_ATM_.h" />
 		<Unit filename="include/mysupplib.h" />
 		<Unit filename="include/showScreen.h" />
+		<Unit filename="src/User.cpp" />
 		<Unit filename="src/_ATM_.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/mysupplib.cpp" />

@@ -1,6 +1,8 @@
 #include "../include/_ATM_.h"
 #include "../include/showScreen.h"
 
+using namespace std;
+
 #define WIDTH 115
 #define HEIGHT 45
 const int moneyArr[6]= {10000,20000,50000,100000,200000,500000};
@@ -20,7 +22,7 @@ int main()
             cout << "Please wait a second to go to sign up process..." << "\n";
             Sleep(700);
             User temp;
-            string tempID,tempPass,passcf,accountInfo;
+            string tempID,tempPass,passcf;
             while(true)
             {
                 system("cls");
@@ -72,57 +74,10 @@ int main()
 // Nếu chưa tồn tại thì ghi vào file danh sách tài khoản
                 else
                 {
-                    bool is_List_Account_Clear=false;;
-                    ifstream fileListAccountIn;
-// Kiểm tra listAccount có rỗng không
-                    fileListAccountIn.open("data\\listAccount.txt",ios_base::in);
-                    if(fileListAccountIn.is_open())
-                    {
-                        fileListAccountIn.seekg(0, ios::end);
-                        if (fileListAccountIn.tellg() == 0)
-                        {
-                            is_List_Account_Clear=true;
-                        }
-                    }
-                    else
-                        cout << "Can't open file.";
-                    fileListAccountIn.close();
-                    ofstream fileListAccountOut;
-                    fileListAccountOut.open("data\\listAccount.txt",ios_base::app);
-                    if(fileListAccountOut.is_open())
-                    {
-                        if(is_List_Account_Clear)
-                        {
-                            fileListAccountOut << tempID << "\n";
-                            fileListAccountOut << tempPass << "\n";
-                        }
-                        else
-                        {
-                            fileListAccountOut << "\n" << tempID << "\n";
-                            fileListAccountOut << tempPass << "\n";
-                        }
-                    }
-                    else
-                        cout << "Can't open file.";
-                    fileListAccountOut.close();
+                    signUp(tempID,tempPass);
                     break;
                 }
             }
-// Tạo file chứa thông tin của tài khoản vừa đăng ký và ghi vào số dư hiện tại (0 VND)
-            accountInfo="data\\" + tempID + "Info.txt";
-            ofstream fileAccountInfo;
-            fileAccountInfo.open(accountInfo,ios_base::out);
-            if(!fileAccountInfo.is_open())
-                cout << "Can't open file.";
-            else
-                fileAccountInfo << "0" << "\n";
-            fileAccountInfo.close();
-            cout << "Please wait a second..." << "\n\n";
-            Sleep(700);
-            cout << "Sign up successfully." << "\n";
-            cout << "Please wait a second and log in to your account..." << "\n";
-            Sleep(1500);
-            system("cls");
         }
 //Đăng nhập vào tài khoản
         else if(answer==2)
@@ -231,7 +186,6 @@ int main()
                                 while(!checkDenominations);
                                 cout << "Enter the bills: ";
                                 cin >> bills;
-                                cin.ignore();
                                 int moneyDeposit=denominations*bills;
                                 if(moneyDeposit>1000000000)
                                 {
@@ -241,6 +195,7 @@ int main()
 // Đọc số dư từ file, tăng số tiền và cập nhật lại vào file
                                 else
                                 {
+                                    cin.ignore();
                                     test.Deposit(accountInfo,moneyDeposit);
                                     int currentBalance=test.checkBalance(accountInfo);
                                     test.setBalance(currentBalance);
@@ -296,7 +251,6 @@ int main()
                                 cout << "Your current balance is: " << balance << " VND." << "\n";
                                 cout << "How much do you want to withdraw? ";
                                 cin >> withdraw;
-                                cin.ignore();
 // Nhập số tiền rút, nếu số tiền rút nhỏ hơn số tiền nhỏ nhất có thể rút
 //                  hoặc số tiền rút không phải bội số của 10000 thì quay lại
                                 if(withdraw<minwithdraw)
@@ -316,6 +270,7 @@ int main()
                                 }
                                 else
                                 {
+                                    cin.ignore();
                                     test.Withdraw(accountInfo,withdraw);
                                 }
                             }
@@ -345,7 +300,6 @@ int main()
                                 cout << "Enter amount you want to transfer: ";
                                 int amount;
                                 cin >> amount;
-                                cin.ignore();
                                 int balance=test.checkBalance(accountInfo);
                                 test.setBalance(balance);
                                 if(!is_ID_Valid(accountReceiveID))
@@ -370,6 +324,7 @@ int main()
                                 }
                                 else
                                 {
+                                    cin.ignore();
                                     tranfer(test,accountReceive,amount);
                                     cout << "Please wait a second..." << "\n\n";
                                     Sleep(700);
